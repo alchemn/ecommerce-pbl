@@ -1,6 +1,5 @@
 import express from 'express'
-import buyRouter from './router/buyer.js'
-import sellerRouter from './router/seller.js'
+import sellerRouter from './router/user.js'
 import productRouter from './router/product.js'
 
 
@@ -18,7 +17,6 @@ app.use('/', (req,res) => {
     res.send("Hello Dunia")
 })
 
-app.use('/buyer', buyRouter)
 app.use('/seller', sellerRouter)
 app.use('/product', productRouter)
 
