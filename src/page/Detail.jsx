@@ -1,44 +1,11 @@
 import React from 'react';
+import Navbar from '../components/Navbar';
 
 const ShoppingCart = () => {
   return (
-    <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden" style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}>
+    <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
       <div className="layout-container flex h-full grow flex-col">
-        <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-gray-200 px-10 py-4 bg-white">
-          <div className="flex items-center gap-8">
-            <div className="flex items-center gap-3 text-indigo-600">
-              <span className="material-symbols-outlined text-3xl">store</span>
-              <h2 className="text-gray-800 text-xl font-bold leading-tight tracking-tight">MarketSquare</h2>
-            </div>
-            <div className="hidden md:flex items-center gap-8">
-              <a className="text-gray-600 hover:text-indigo-600 text-sm font-medium leading-normal" href="#">Home</a>
-              <a className="text-gray-600 hover:text-indigo-600 text-sm font-medium leading-normal" href="#">Shop</a>
-              <a className="text-gray-600 hover:text-indigo-600 text-sm font-medium leading-normal" href="#">Sell</a>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex">
-              <label className="flex flex-col min-w-40 !h-10 max-w-64">
-                <div className="flex w-full flex-1 items-stretch rounded-full h-full">
-                  <div className="text-gray-400 flex border-none bg-gray-100 items-center justify-center pl-4 rounded-l-full border-r-0">
-                    <span className="material-symbols-outlined">search</span>
-                  </div>
-                  <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-r-full text-gray-800 focus:outline-0 focus:ring-2 focus:ring-indigo-200 border-none bg-gray-100 focus:border-none h-full placeholder:text-gray-400 px-4 text-sm font-normal leading-normal" placeholder="Search for products..." defaultValue="" />
-                </div>
-              </label>
-            </div>
-            <div className="flex items-center gap-2">
-              <button className="flex items-center justify-center rounded-full h-10 w-10 bg-gray-100 hover:bg-gray-200 text-gray-600">
-                <span className="material-symbols-outlined">favorite_border</span>
-              </button>
-              <button className="flex items-center justify-center rounded-full h-10 w-10 bg-gray-100 hover:bg-gray-200 text-gray-600 relative">
-                <span className="material-symbols-outlined">shopping_bag</span>
-                <span className="absolute top-1 right-1.5 h-4 w-4 bg-indigo-600 text-white text-xs font-bold rounded-full flex items-center justify-center">2</span>
-              </button>
-            </div>
-            <div className="w-10 h-10 rounded-full bg-cover bg-center" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuC8BPdjHiJ_kEamB9rv0Ev2ZTGxubr_MiOX2IRZe17D5nubmHEFoOKSKJlJOG_cOhMfrDcAGclRF7aTA9CYx45_1WW-AlG26SEK88keVX3_TEN6ncFv-vTQQSzLayiYTm5-THYAwZQwWKP57KkYgzg3QrawYt00IHy6udgX1VRXZI3Gw5Zq4hMzG_jycTOnmwH44ll-57HfmL9P73xCkaEz81QprwzkaM_Y1TrRVPNNhDFf6j6CjEX0UkqGGGcNU4YZZ3ps1MQDwna1")' }}></div>
-          </div>
-        </header>
+        <Navbar/>
         <main className="flex-1 w-full max-w-6xl mx-auto py-12 px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">

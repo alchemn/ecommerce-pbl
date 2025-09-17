@@ -10,7 +10,7 @@ export default function Home() {
 <Routes>
   <Route path='/' element={<Dashboard/>}/>
   <Route path='/product-list' element={<ProductList/>}/>
-  <Route path='/product-list/id' element={<Detail/>}/>
+  <Route path='/product-list-id/' element={<Detail/>}/>
 
 </Routes>
 </BrowserRouter>
