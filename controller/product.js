@@ -26,7 +26,8 @@ export const getProductById = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     try {
-      const { name,description,price,image,userId } = req.body;
+      const { name,description,price,userId } = req.body;
+      const image = req.file ? `/public/uploads/${req.file.filename}` : req.body.image;
       const product = await prisma.product.create({
         data:{
             name:name,
@@ -82,7 +83,7 @@ export const fileUpload = async (req,res) => {
     })
   }
   const imageFile = file.filename;
-  const pathImageFile = `/uploads/${imageFile}`
+  const pathImageFile = `/public/uploads/${imageFile}`
   res.status(200).json({
     message: "File Sucsess Uploaded",
     image: pathImageFile

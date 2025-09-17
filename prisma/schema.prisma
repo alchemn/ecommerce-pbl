@@ -5,18 +5,17 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
-
 model User {
-  id      Int     @id @default(autoincrement())
-  email   String  @unique
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
   password String
-  role    Role?  
-  profile Profile?
-  orders  Order[]
+  role     Role     @default(BUYER) // Made non-optional with a default value
+  profile  Profile? // One-to-one relation
+  orders   Order[]
   products Product[]
 }
 
@@ -25,39 +24,51 @@ enum Role {
   BUYER
 }
 
-
 model Product {
   id          Int      @id @default(autoincrement())
   name        String
-  description String
+  description String   @db.Text
   price       Float
-  image String?    
-  userId      Int
-  user        User     @relation(fields: [userId], references: [id])
-  categories  Category[]
-  orders      Order[]
+  image       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+
+  categoryId Int?
+  category   Category? @relation(fields: [categoryId], references: [id])
+
+  // Relation to Order (Many-to-Many)
+  orders Order[]
 }
 
 model Category {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
-  products Product[] 
-}
+  id   Int    @id @default(autoincrement())
+  name String @unique
 
+  // Back-relation to Product
+  products Product[]
+}
 
 model Profile {
   id     Int    @id @default(autoincrement())
-  name String
+  name   String
   addres String
   phone  String
   userId Int    @unique
   user   User   @relation(fields: [userId], references: [id])
 }
 
-
 model Order {
   id        Int      @id @default(autoincrement())
-  userId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  products  Product[] 
+  createdAt DateTime @default(now())
+
+  // Relation to User
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  // Relation to Product (Many-to-Many)
+  products Product[]
 }

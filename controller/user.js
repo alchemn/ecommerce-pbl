@@ -99,7 +99,7 @@ export const addProfile = async (req,res) => {
 }
 
 
-export const loginUser = async (req,res, next) => {
+export const loginUser = async (req,res) => {
   try {
     if(!req.body.email || !req.body.password){
         return res.status(404).json({
@@ -109,15 +109,13 @@ export const loginUser = async (req,res, next) => {
     const userEmail = await prisma.user.findUnique({
       where:{email:req.body.email}
     })
-    // The 'matchPassword' method is not a standard Prisma function.
-    // You will need to implement password checking logic here, likely using a library like bcrypt.
     if (userEmail && (await userEmail.matchPassword(req.body.password))){
       return res.status(200).json({
         message: "User Login"
       })
     }
     res.status(401).json({ message: "Invalid email or password" });
-  } catch (error) {
+  } catch {
     res.status(500).json({
       message: "Entah apa yang salah"
     })

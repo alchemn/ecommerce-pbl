@@ -7,7 +7,7 @@ import productRouter from './router/product.js'
 const app = express()
 
 app.use(express.json())
-
+app.use('/public/uploads', express.static('public/uploads'))
 
 
 

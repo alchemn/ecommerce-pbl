@@ -1,20 +1,16 @@
 import express from 'express'
-import { createProduct, getProduct } from '../controller/product.js'
+import { createProduct, deleteProduct, getProduct, getProductById, updateProduct, fileUpload } from '../controller/product.js'
+import { upload } from '../utils/uploadFileHandler.js'
 
 
 const productRouter = express.Router()
 
 
 productRouter.get('/',getProduct)
-productRouter.get('/:id', (req,res) => {
-    res.send('Huahauhaua')
-})
+productRouter.get('/:id', getProductById)
 productRouter.post('/'  , createProduct)
-productRouter.put('/:id', (req,res) => {
-    res.send('Huahauhaua')
-})
-productRouter.delete('/:id', (req,res) => {
-    res.send('Huahauhaua')
-})
+productRouter.put('/:id', updateProduct)
+productRouter.delete('/:id', deleteProduct)
+productRouter.post('/upload', upload.single('image'), fileUpload)
 
 export default productRouter;
