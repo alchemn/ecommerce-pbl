@@ -1,23 +1,20 @@
 import express from 'express'
+import { createuser, getuser } from '../controller/user.js'
 
 
-const sellerRouter = express.Router()
+const userRouter = express.Router()
 
 
-sellerRouter.get('/', (req,res) => {
+userRouter.get('/', getuser)
+userRouter.get('/:id', (req,res) => {
     res.send('Huahauhaua')
 })
-sellerRouter.get('/:id', (req,res) => {
+userRouter.post('/', createuser)
+userRouter.put('/:id', (req,res) => {
     res.send('Huahauhaua')
 })
-sellerRouter.post(',', (req,res) => {
-    res.send('Huahauhaua')
-})
-sellerRouter.put('/:id', (req,res) => {
-    res.send('Huahauhaua')
-})
-sellerRouter.delete('/:id', (req,res) => {
+userRouter.delete('/:id', (req,res) => {
     res.send('Huahauhaua')
 })
 
-export default sellerRouter;
+export default userRouter;

@@ -1,5 +1,5 @@
 import express from 'express'
-import sellerRouter from './router/user.js'
+import userRouter from './router/user.js'
 import productRouter from './router/product.js'
 
 
@@ -13,11 +13,8 @@ app.use(express.json())
 
 const PORT = 9009
 
-app.use('/', (req,res) => {
-    res.send("Hello Dunia")
-})
 
-app.use('/seller', sellerRouter)
+app.use('/user', userRouter)
 app.use('/product', productRouter)
 
 app.listen(PORT, () => {

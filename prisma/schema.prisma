@@ -14,7 +14,7 @@ model User {
   id      Int     @id @default(autoincrement())
   email   String  @unique
   password String
-  role    Role    @default(BUYER) 
+  role    Role?  
   profile Profile?
   orders  Order[]
   products Product[]
@@ -47,6 +47,9 @@ model Category {
 model Profile {
   id     Int    @id @default(autoincrement())
   bio    String
+  name String
+  addres String
+  phone  String
   userId Int    @unique
   user   User   @relation(fields: [userId], references: [id])
 }
