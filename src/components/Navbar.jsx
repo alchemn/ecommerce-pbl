@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { PlusIcon } from '@heroicons/react/16/solid';
-import { ShoppingCartIcon, TruckIcon } from '@heroicons/react/24/outline';
+import { PlusIcon } from "@heroicons/react/16/solid";
+import { ShoppingCartIcon, TruckIcon } from "@heroicons/react/24/outline";
 
 const Navbar = () => {
   return (
@@ -54,12 +54,11 @@ const Navbar = () => {
             />
           </label>
           <div className="flex items-center gap-2">
-            <button className="relative flex items-center justify-center rounded-full h-10 w-10 bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors">
-              <ShoppingCartIcon height={30} />
-              <span className="absolute top-0 right-0 -mt-1 -mr-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-white text-xs font-bold">
-                2
-              </span>
-            </button>
+            <Link to={'/cart'}>
+              <button className="relative flex items-center justify-center rounded-full h-10 w-10 bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors">
+                <ShoppingCartIcon height={30} />
+              </button>
+            </Link>
           </div>
           <div
             className="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-white shadow-md"
