@@ -30,7 +30,8 @@ model Product {
   id          Int      @id @default(autoincrement())
   name        String
   description String
-  price       Float    
+  price       Float
+  image String?    
   userId      Int
   user        User     @relation(fields: [userId], references: [id])
   categories  Category[]
@@ -46,7 +47,6 @@ model Category {
 
 model Profile {
   id     Int    @id @default(autoincrement())
-  bio    String
   name String
   addres String
   phone  String

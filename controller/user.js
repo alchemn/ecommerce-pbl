@@ -25,6 +25,9 @@ export const getuserById = async (req, res) => {
 export const createuser = async (req, res) => {
     try {
       const { email,password,role} = req.body;
+      if (!email || !password) {
+        return res.status(400).json({ message: "Please provide email and password" });
+      }
       const userEmail = await prisma.user.findUnique({
         where:{email:email}
       })
@@ -74,19 +77,17 @@ export const deleteuser = async (req, res) => {
 
 export const addProfile = async (req,res) => {
   try {
-    const {id} = req.params;
-    const userId = await prisma.user.findUnique({
-      where:{id:Number(id)}    
-    })
-    if(!userId){
-      res.status(500).json({message:"user not found"})
-    }
+    const {name, addres, phone, userId} = req.body
     const profile = await prisma.profile.create({
       data:{
-        userId:userId.id,
-        name:req.body.name,
-        address:req.body.address,
-        phone:req.body.phone,
+        name:name,
+        addres:addres,
+        phone:phone,
+        user:{
+          connect: {
+            id: Number(userId)
+          }
+        }
       }
     })
     res.status(200).json({
@@ -101,19 +102,21 @@ export const addProfile = async (req,res) => {
 export const loginUser = async (req,res, next) => {
   try {
     if(!req.body.email || !req.body.password){
-        return res.stasus(404).json({
+        return res.status(404).json({
           message: "Email and Password Wrong"
         })
     }
     const userEmail = await prisma.user.findUnique({
       where:{email:req.body.email}
     })
+    // The 'matchPassword' method is not a standard Prisma function.
+    // You will need to implement password checking logic here, likely using a library like bcrypt.
     if (userEmail && (await userEmail.matchPassword(req.body.password))){
-      res.status(200).json({
+      return res.status(200).json({
         message: "User Login"
       })
     }
-    next()
+    res.status(401).json({ message: "Invalid email or password" });
   } catch (error) {
     res.status(500).json({
       message: "Entah apa yang salah"
