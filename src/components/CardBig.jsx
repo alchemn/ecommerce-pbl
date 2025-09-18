@@ -1,24 +1,26 @@
 import { HeartIcon } from "@heroicons/react/24/outline";
 import { StarIcon as StarSolid } from "@heroicons/react/16/solid";
 import { StarIcon as StarOutline } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { useState }  from "react";
 import { Link } from "react-router-dom";
 
-const CardBig = ({ name, price, owner }) => {
+const CardBig = ({ name, price, owner, image, id }) => {
+  const [isFav, setFav] = useState(false)
+
   return (
     <>
-      <Link to={'/product-list-id'}>
+      <Link to={`/product/${id}`}>
         <div className="group flex flex-col bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
           <div className="relative">
-            <div
+            <img
               className="w-full h-56 bg-center bg-cover"
-              style={{
-                backgroundImage:
-                  'url("https://lh3.googleusercontent.com/aida-public/AB6AXuCEBWLbmPrRLCTMXKEDIJxaaiKjjnP90FR2Vdi5WlxsPZ974nPPKOXYT3GVK-0MJdSUQlqKOYBliFnMGuivPXSA5Cs293I4rLq4i6WdosI5JAelrs2Y1OAZaoOGCQXs5SmVIMSPPVG3USREVSVAo15HtSQMemYpwheKtaeSUQs9uvTgs-NjIHYSaZOMp5XKlMVJhzfIjRa_jL1S3sxlJ1zD-1DYlda5K4EAiTVMrSKXQcI7Kf1VZKekl5LqOKsy0Qn21LpCK3F7GlsB")',
-              }}
-            ></div>
-            <div className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm rounded-full p-1.5 cursor-pointer">
-              <HeartIcon width={30} />
+              src={image}
+            ></img>
+            <div onClick={(e)=> {
+              e.preventDefault()
+              setFav(!isFav)
+            }} className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm rounded-full p-1.5 cursor-pointer">
+              <HeartIcon width={30} className={isFav ? "text-red-500 fill-red-500" : "text-gray-600"}/>
             </div>
           </div>
           <div className="p-4 flex flex-col flex-grow">

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { PlusIcon } from "@heroicons/react/16/solid";
-import { ShoppingCartIcon, TruckIcon } from "@heroicons/react/24/outline";
+
+import { MagnifyingGlassIcon, ShoppingCartIcon, TruckIcon } from "@heroicons/react/24/outline";
 
 const Navbar = () => {
   return (
@@ -34,24 +34,17 @@ const Navbar = () => {
             >
               Shop
             </Link>
-            <a className="hover:text-primary transition-colors" href="#">
-              Flash Deals
-            </a>
-            <a className="hover:text-primary transition-colors" href="#">
-              Trending
-            </a>
+            <Link to={'/about'} className="hover:text-primary transition-colors" href="#">
+              About
+            </Link>
           </div>
         </div>
         <div className="flex flex-1 justify-end items-center gap-4">
           <label className="relative w-full max-w-sm">
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              <PlusIcon className="material-symbols-outlined">search</PlusIcon>
+            <div className="relative hidden sm:block">
+              <MagnifyingGlassIcon className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-500" />
+              <input className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-full border-gray-300 bg-gray-100 h-10 pl-10 pr-4 text-sm font-normal leading-normal text-gray-900 placeholder:text-gray-500 focus:outline-0 focus:ring-2 focus:ring-indigo-500/50" placeholder="Search" type="text" defaultValue="" />
             </div>
-            <input
-              className="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-full text-gray-900 focus:outline-0 focus:ring-2 focus:ring-primary border-gray-300 bg-gray-100 h-10 placeholder:text-gray-500 pl-10 pr-4 text-sm font-normal leading-normal"
-              placeholder="Search products..."
-              value=""
-            />
           </label>
           <div className="flex items-center gap-2">
             <Link to={'/cart'}>

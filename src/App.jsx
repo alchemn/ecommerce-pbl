@@ -4,6 +4,8 @@ import ProductList from "./page/ProductList";
 import ProductDetail from "./page/ProductDetail";
 import ShoppingCart from "./page/Cart";
 import Profile from "./page/Profile";
+import CheckoutPage from "./page/Checkout";
+import About from "./page/About";
 
 export default function Home() {
   return (
@@ -12,9 +14,11 @@ export default function Home() {
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/product-list" element={<ProductList />} />
-          <Route path="/product-list-id/" element={<ProductDetail />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/order/" element={<CheckoutPage />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>
     </>
