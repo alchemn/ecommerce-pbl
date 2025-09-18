@@ -17,7 +17,7 @@ export default function Home() {
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<ShoppingCart />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/order/" element={<CheckoutPage />} />
+          <Route path="/order/:id" element={<CheckoutPage />} />
           <Route path="/about" element={<About />} />
         </Routes>
       </BrowserRouter>

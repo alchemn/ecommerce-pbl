@@ -6,9 +6,23 @@ import { CreditCardIcon } from '@heroicons/react/24/outline';
 import Category from '../components/Category';
 import Button from '../components/Button';
 import {TruckIcon} from '@heroicons/react/24/outline'
+import useSWR from "swr";
+import axios from "axios";
 
+const fetcher = (url) => axios.get(url).then((res) => res.data);
 
 const ShopSmart = () => {
+  const { data: categories, error, isLoading } = useSWR("http://172.16.10.24:9009/category", fetcher);
+  const BASE_URL = "http://172.16.10.24:9009";
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center h-screen text-red-500">
+        Failed to load categories.
+      </div>
+    );
+  }
+
   return (
     <div className="relative flex h-auto min-h-screen w-full flex-col bg-white group/design-root overflow-x-hidden font-inter">
       <div className="layout-container flex h-full grow flex-col">
@@ -33,21 +47,21 @@ const ShopSmart = () => {
 
             <section>
               <h2 className="text-gray-900 text-3xl font-bold leading-tight tracking-tighter px-4 pb-6">Shop by Category</h2>
-              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4">
-                <Category name={'Furniture'}/>
-                <Category name={'Furniture'}/>
-                <Category name={'Furniture'}/>
-                <Category name={'Furniture'}/>
-                <Category name={'Furniture'}/>
-                <Category name={'Furniture'}/>
-                <Category name={'Furniture'}/>
-                <Category name={'Furniture'}/>
-                
-              </div>
+              {isLoading ? (
+                <div className="flex items-center justify-center text-gray-500">
+                  Loading categories...
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4">
+                  {categories.map((category) => (
+                    <Category key={category.id} name={category.name} image={`${BASE_URL}/${category.image}`} />
+                  ))}
+                </div>
+              )}
             </section>
 
             <section className="space-y-6">
-              <h2 className="text-gray-900 text-3xl font-bold leading-tight tracking-tighter px-4">Trending Products</h2>
+              <h2 className="text-gray-900 text-3xl font-bold leading-tight tracking-tighter px-4">Latest Products</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
                 <Card name={'Kasur'} price={'Rp200.000'}/>
                 <Card name={'Sofa'} price={'Rp.40.000'}/>
