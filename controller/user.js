@@ -99,6 +99,32 @@ export const addProfile = async (req,res) => {
 }
 
 
+export const updateProfile = async (req,res) => {
+  try {
+    const {id} = req.params
+    const {name,addres,phone,userId} = req.body
+    const profile = await prisma.profile.update({
+      where: {id: Number(id)},
+      data:{
+        name:name,
+        addres:addres,
+        phone:phone,
+        user:{
+          connect: {
+            id: Number(userId)
+          }
+        }
+      }
+    })
+    res.status(200).json({
+      message:"Profile User Updated", profile
+    })
+  } catch (err) {
+    res.status(500).json({message:err.message})
+  }
+}
+
+
 export const loginUser = async (req,res) => {
   try {
     if(!req.body.email || !req.body.password){

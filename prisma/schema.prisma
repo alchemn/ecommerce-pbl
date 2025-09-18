@@ -70,5 +70,5 @@ model Order {
   user   User @relation(fields: [userId], references: [id])
 
   // Relation to Product (Many-to-Many)
-  products Product[]
+  product Product[]
 }
