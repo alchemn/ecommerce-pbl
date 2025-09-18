@@ -9,7 +9,7 @@ const Category = ({name, image}) => {
       >
         <img
           className="w-24 h-24 bg-center bg-no-repeat aspect-square bg-cover rounded-full shadow-sm"
-          src={image}
+          src={image || "https://via.placeholder.com/150"}
         ></img>
         <p className="text-gray-800 text-sm font-semibold leading-normal group-hover:text-primary transition-colors">
           {name}

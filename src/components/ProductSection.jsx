@@ -19,7 +19,7 @@ const ProductSection = () => {
         {isLoading ? (
           <p>Loading...</p>
         ) : (
-          products.map((product) => (
+          (products.product || products).map((product) => (
             <Card
               key={product.id}
               name={product.name}
