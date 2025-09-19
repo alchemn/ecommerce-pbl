@@ -11,6 +11,10 @@ export const getProductById = (id) => {
   return apiClient.get(`/product/${id}`);
 };
 
+export const createUser = (payload) => {
+  return apiClient.post("/user/", payload);
+}
+
 export const createOrder = (payload) => {
   return apiClient.post("/order/", payload);
 };
