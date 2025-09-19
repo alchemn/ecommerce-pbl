@@ -32,7 +32,7 @@ export const createProduct = async (req, res) => {
         data:{
             name:name,
             description:description,
-            price:price,
+            price:parseFloat(price),
             image:image,
             user: {
               connect: {

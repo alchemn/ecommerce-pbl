@@ -4,16 +4,16 @@ const prisma = new PrismaClient();
 
 export const createOrder = async (req, res) => {
   try {
-    const { productId, userId } = req.body;
+    const { productIds, userId } = req.body;
 
-    if (!productId || !userId) {
+    if (!productIds || !userId) {
       return res.status(400).json({
         message: "productId and userId are required",
       });
     }
 
     const product = await prisma.product.findUnique({
-      where: { id: Number(productId) },
+      where: { id: Number(productIds) },
     });
 
     if (!product) {
@@ -25,7 +25,7 @@ export const createOrder = async (req, res) => {
     const order = await prisma.order.create({
       data: {
         user: { connect: { id: Number(userId) } },
-        product: { connect: { id: Number(productId) } },
+        product: { connect: { id: Number(productIds) } },
       },
       include: {
         user: true,
@@ -47,18 +47,23 @@ export const createOrder = async (req, res) => {
 
 export const getOrder = async (req, res) => {
   try {
+    const { userId } = req.query;
+
     const orders = await prisma.order.findMany({
+      where: userId ? { userId: Number(userId) } : {},
       include: {
         user: true,
         product: true,
       },
-      orderBy: { createdAt: "desc" }, 
+      orderBy: { createdAt: "desc" },
     });
+
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 export const getOrderById = async (req, res) => {
   try {

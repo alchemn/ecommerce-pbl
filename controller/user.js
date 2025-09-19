@@ -125,25 +125,28 @@ export const updateProfile = async (req,res) => {
 }
 
 
-export const loginUser = async (req,res) => {
+export const loginUser = async (req, res) => {
   try {
-    if(!req.body.email || !req.body.password){
-        return res.status(404).json({
-          message: "Email and Password Wrong"
-        })
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res.status(400).json({ message: "Please provide email and password" });
     }
-    const userEmail = await prisma.user.findUnique({
-      where:{email:req.body.email}
-    })
-    if (userEmail && (await userEmail.matchPassword(req.body.password))){
-      return res.status(200).json({
-        message: "User Login"
-      })
+
+    const user = await prisma.user.findUnique({
+      where: { email: email },
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid email or password" });
     }
-    res.status(401).json({ message: "Invalid email or password" });
-  } catch {
-    res.status(500).json({
-      message: "Entah apa yang salah"
-    })
+
+    if (user.password !== password) {
+      return res.status(401).json({ message: "Invalid email or password" });
+    }
+
+    res.status(200).json({ message: "User Login" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-}
+};
