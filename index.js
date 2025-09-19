@@ -3,6 +3,7 @@ import cors from 'cors'
 import userRouter from './router/user.js'
 import productRouter from './router/product.js'
 import orderRouter from './router/order.js'
+import categoryRouter from './router/category.js'
 
 
 
@@ -21,6 +22,7 @@ const PORT = 9009
 app.use('/user', userRouter)
 app.use('/product', productRouter)
 app.use('/order', orderRouter)
+app.use('/category', categoryRouter)
 
 app.listen(PORT, () => {
     console.log(`🚀 Server Deploy at ${PORT}`);

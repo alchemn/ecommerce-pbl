@@ -47,6 +47,8 @@ model Product {
 model Category {
   id   Int    @id @default(autoincrement())
   name String @unique
+  image String
+
 
   // Back-relation to Product
   products Product[]

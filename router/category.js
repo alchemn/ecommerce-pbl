@@ -1,0 +1,12 @@
+import express from 'express'
+import { createCategory, getcategory } from '../controller/kategori.js';
+import { upload } from '../utils/uploadFileHandler.js';
+import { fileUpload } from '../controller/product.js';
+
+const categoryRouter = express.Router()
+
+categoryRouter.get('/', getcategory)
+categoryRouter.post('/', createCategory)
+categoryRouter.post('/upload', upload.single('image'), fileUpload)
+
+export default categoryRouter;
