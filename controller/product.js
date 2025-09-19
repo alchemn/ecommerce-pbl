@@ -76,14 +76,14 @@ export const deleteProduct = async (req, res) => {
 };
 
 export const fileUpload = async (req,res) => {
-  const file = req.file
-  if(!file) {
+  const files = req.files
+  if(!files || files.length === 0) {
     return res.status(404).json({
       message: "File Not Found"
     })
   }
-  const imageFile = file.filename;
-  const pathImageFile = `/public/uploads/${imageFile}`
+  const imageFile = files.map(file => file.filename);
+  const pathImageFile = imageFile.map(filename => `/public/uploads/${filename}`)
   res.status(200).json({
     message: "File Sucsess Uploaded",
     image: pathImageFile
