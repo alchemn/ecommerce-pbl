@@ -8,8 +8,8 @@ const Category = ({name, image}) => {
         href="#"
       >
         <img
-          className="w-24 h-24 bg-center bg-no-repeat aspect-square bg-cover rounded-full shadow-sm"
-          src={image || "https://via.placeholder.com/150"}
+          className="w-24 h-24 aspect-square bg-cover rounded-full shadow-sm "
+          src={image}
         ></img>
         <p className="text-gray-800 text-sm font-semibold leading-normal group-hover:text-primary transition-colors">
           {name}
@@ -17,6 +17,6 @@ const Category = ({name, image}) => {
       </a>
     </div>
   );
-};
+};  
 
 export default Category;

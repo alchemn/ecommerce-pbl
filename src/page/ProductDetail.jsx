@@ -13,6 +13,8 @@ function ProductDetail() {
   const [isBuying, setIsBuying] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const API= import.meta.env.VITE_API_URL
+
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -86,7 +88,7 @@ function ProductDetail() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <ProductImage image={product.image} name={product.name} />
+              <ProductImage image={`${API}${product.image}`} name={product.name} />
               <ProductInfo
                 product={product}
                 isBuying={isBuying}

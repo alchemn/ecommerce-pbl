@@ -8,6 +8,7 @@ import CheckoutSkeleton from '../components/CheckoutSkeleton';
 import ShippingDetails from '../components/ShippingDetails';
 import PaymentDetails from '../components/PaymentDetails';
 import OrderSummary from '../components/OrderSummary';
+import { Link } from 'react-router-dom';
 
 function CheckoutPage() {
   const { id } = useParams();
@@ -98,10 +99,12 @@ function CheckoutPage() {
                 </label>
               </div>
               <div className="mt-8 flex justify-end">
+                <Link to={'/payment'}>
                 <button className="flex min-w-[120px] items-center justify-center rounded-full h-12 px-8 bg-indigo-600 text-white text-base font-bold leading-normal tracking-wide shadow-md shadow-indigo-500/20 transition-all duration-300 hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500/50">
-                  <span className="truncate">Place Order</span>
+                  <span className="truncate">Paid Now</span>
                   <ArrowRightIcon className="ml-2 h-5 w-5" />
                 </button>
+                </Link>
               </div>
             </div>
           </div>

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { HeartIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
 
 const UserActions = () => (
   <div className="flex items-center gap-2">
     <Link to={'/cart'}>
       <button className="relative flex items-center justify-center rounded-full h-10 w-10 bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors">
-        <ShoppingCartIcon height={30} />
+        <HeartIcon height={30} />
       </button>
     </Link>
     <Link to={'/profile'}>

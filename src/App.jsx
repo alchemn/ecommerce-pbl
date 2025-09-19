@@ -7,6 +7,8 @@ import Profile from "./page/Profile";
 import CheckoutPage from "./page/Checkout";
 import About from "./page/About";
 
+import OrderList from "./page/OrderList";
+
 export default function Home() {
   return (
     <>
@@ -19,6 +21,7 @@ export default function Home() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/order/:id" element={<CheckoutPage />} />
           <Route path="/about" element={<About />} />
+          <Route path="/payment" element={<OrderList />} />
         </Routes>
       </BrowserRouter>
     </>
