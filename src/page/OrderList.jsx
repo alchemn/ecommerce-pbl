@@ -1,8 +1,40 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { getAllOrders } from '../api';
+import Spinner from '../components/Spinner';
 import { MagnifyingGlassIcon, HeartIcon, ShoppingCartIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import { Squares2X2Icon } from '@heroicons/react/24/solid';
 
 function OrderList() {
+
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Ganti userId sesuai kebutuhan, misal dari localStorage atau context
+    const userId = 2;
+    getAllOrders({ userId })
+      .then(res => {
+        setOrders(Array.isArray(res.data) ? res.data : []);
+        setLoading(false);
+      })
+      .catch(() => {
+        setError('Failed to fetch orders');
+        setLoading(false);
+      });
+  }, []);
+
+  function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('id-ID', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    });
+  }
+
   return (
     <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden" style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}>
       <div className="layout-container flex h-full grow flex-col">
@@ -49,86 +81,31 @@ function OrderList() {
               </nav>
             </div>
             <div className="mt-8 flex flex-col gap-4">
-              <div className="flex items-center gap-6 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md">
-                <div className="h-20 w-20 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBMlZ2hiJWGa6TQal68GKAev-yG43Kq2AlxmKV2X_B8mz4iee0pZBLrc7Jp2mI_C85zAIBWVZ7-GpyS59mHWIwsE-aLQfoThRfQX9aLR86mgXTQ4USvbOI7o6AW1pJhVYJT4py_e74UOc_hMZCJQyBiI-pJnpj4CB1PW3Asy9pd4Bwz3Kr-CLCmuT8rk5rDjapQ2mpt5ivEScZohMFeJrp9Mty_MXaAJ06tepfx42GDsnaPr9Z-4oAl3wBEvIV1RmOHttqT-K5LLtFo")' }}></div>
-                <div className="flex-1">
-                  <div className="flex items-baseline justify-between">
-                    <p className="text-lg font-semibold text-gray-800">Order #1234567890</p>
-                    <p className="text-sm text-gray-500">Jan 15, 2024</p>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between">
-                    <p className="text-sm text-gray-600">Total: <span className="font-medium text-gray-800">$149.99</span></p>
-                    <div className="flex items-center gap-2">
-                      <div className="h-2.5 w-2.5 rounded-full bg-blue-500"></div>
-                      <p className="text-sm font-medium text-blue-600">Processing</p>
+              {loading ? (
+                <div className="flex justify-center items-center py-10"><Spinner /></div>
+              ) : error ? (
+                <div className="text-red-500 text-center py-10">{error}</div>
+              ) : orders.length === 0 ? (
+                <div className="text-gray-500 text-center py-10">No orders found.</div>
+              ) : (
+                orders.map(order => (
+                  <div key={order.id} className="flex items-center gap-6 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md">
+                    <div className="h-20 w-20 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: `url(${order.product?.image || '/public/vite.svg'})` }}></div>
+                    <div className="flex-1">
+                      <div className="flex items-baseline justify-between">
+                        <p className="text-lg font-semibold text-gray-800">Order #{order.id}</p>
+                        <p className="text-sm text-gray-500">{formatDate(order.createdAt)}</p>
+                      </div>
+                      <div className="mt-2 flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className={`h-2.5 w-2.5 rounded-full ${order.status === 'COMPLETE' ? 'bg-green-500' : order.status === 'PROCESSING' ? 'bg-blue-500' : order.status === 'CANCELLED' ? 'bg-red-500' : 'bg-gray-400'}`}></span>
+                          <p className={`text-sm font-medium ${order.status === 'COMPLETE' ? 'text-green-600' : order.status === 'PROCESSING' ? 'text-blue-600' : order.status === 'CANCELLED' ? 'text-red-600' : 'text-gray-600'}`}>{order.status}</p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <button className="flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  <span>View Details</span>
-                  <ArrowRightIcon className="ml-1.5 h-4 w-4" />
-                </button>
-              </div>
-              <div className="flex items-center gap-6 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md">
-                <div className="h-20 w-20 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuBYbPsHB6IzlluKTe__6-dhPSDB0SnyANhSx2XpxUrciNcEqSqIjdukd5Q1tPOUx6Axehk8YinEruvOcDbBiGBscAcxaAFkGuY57cq3-S3YLZfwNPR8VHL-KPbOnZE89UI2X_2XLZhNTgRUB3UBB1z2DL-7WgfKF5hF-B5jz2IXhitz70jN1kwY47mmRHkGDh8bDib-m0JRbsVWSGUegptEzcPh37DMXLkvw7LBMcFPZre45POwOS1wqWH09zSCuFWG2iaZV7UrOpgZ")' }}></div>
-                <div className="flex-1">
-                  <div className="flex items-baseline justify-between">
-                    <p className="text-lg font-semibold text-gray-800">Order #9876543210</p>
-                    <p className="text-sm text-gray-500">Feb 20, 2024</p>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between">
-                    <p className="text-sm text-gray-600">Total: <span className="font-medium text-gray-800">$89.50</span></p>
-                    <div className="flex items-center gap-2">
-                      <div className="h-2.5 w-2.5 rounded-full bg-green-500"></div>
-                      <p className="text-sm font-medium text-green-600">Completed</p>
-                    </div>
-                  </div>
-                </div>
-                <button className="flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  <span>View Details</span>
-                  <ArrowRightIcon className="ml-1.5 h-4 w-4" />
-                </button>
-              </div>
-              <div className="flex items-center gap-6 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md">
-                <div className="h-20 w-20 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuA4ekswQcYn0xuJcaRH0h0PW19VtYR7-qpQulWJYGQrakqIKEDHpgWe8CwK91IF392ct3ffZhQ0y4lKOlVtYeWnnN99MS0lEHsBRXda9RQDNcBdW7N7UeTB6o6fwVj1Nne4iGGcqtc2nmDnc5tK0W0IxdNR4KgMe5kmadilPkXp1WyLqe85MLTkg_Z8BOd41t-iPZiRiu8Ozj5Uweos044fhtc8_DOOaP4IJZZJV1pmDWPOJrFYXcLmLBQOqmf1bOiTFQanfTziv11R")' }}></div>
-                <div className="flex-1">
-                  <div className="flex items-baseline justify-between">
-                    <p className="text-lg font-semibold text-gray-800">Order #5678901234</p>
-                    <p className="text-sm text-gray-500">Mar 5, 2024</p>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between">
-                    <p className="text-sm text-gray-600">Total: <span className="font-medium text-gray-800">$299.00</span></p>
-                    <div className="flex items-center gap-2">
-                      <div className="h-2.5 w-2.5 rounded-full bg-yellow-500"></div>
-                      <p className="text-sm font-medium text-yellow-600">Shipped</p>
-                    </div>
-                  </div>
-                </div>
-                <button className="flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  <span>View Details</span>
-                  <ArrowRightIcon className="ml-1.5 h-4 w-4" />
-                </button>
-              </div>
-              <div className="flex items-center gap-6 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md">
-                <div className="h-20 w-20 flex-shrink-0 rounded-lg bg-cover bg-center" style={{ backgroundImage: 'url("https://lh3.googleusercontent.com/aida-public/AB6AXuDBMBguUHOI31cwHBvlo9w_cC6rjaTwEFDqrlkiZJWhq0akrIjQWLiFAvy8diNEhkfcohiLLfKp-S8MY6VrAHk7b0dKLACV6h58NbBPi8bNIcL5AwdieoSud_j_RvA4UZjtSY6IIrOwAuPnq9wsAuBhGSDRH-pJUj1HUuoWs9K3xXcHwHcQSTCilCxIf3jHBp18qpS33wDw79CSUEKh0PipoydCn9t9mPWPyD0ot3oe9SThma_oGJslaGwuGeQCqNvkvM-ykz4WKzRi")' }}></div>
-                <div className="flex-1">
-                  <div className="flex items-baseline justify-between">
-                    <p className="text-lg font-semibold text-gray-800">Order #3456789012</p>
-                    <p className="text-sm text-gray-500">Apr 10, 2024</p>
-                  </div>
-                  <div className="mt-2 flex items-center justify-between">
-                    <p className="text-sm text-gray-600">Total: <span className="font-medium text-gray-800">$45.75</span></p>
-                    <div className="flex items-center gap-2">
-                      <div className="h-2.5 w-2.5 rounded-full bg-red-500"></div>
-                      <p className="text-sm font-medium text-red-600">Cancelled</p>
-                    </div>
-                  </div>
-                </div>
-                <button className="flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  <span>View Details</span>
-                  <ArrowRightIcon className="ml-1.5 h-4 w-4" />
-                </button>
-              </div>
+                ))
+              )}
             </div>
           </div>
         </main>

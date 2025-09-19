@@ -1,3 +1,6 @@
+export const getAllOrders = (params) => {
+  return apiClient.get("/order", { params });
+};
 
 import axios from "axios";
 
