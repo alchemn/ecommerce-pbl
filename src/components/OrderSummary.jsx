@@ -32,10 +32,10 @@ const OrderSummary = ({ order }) => {
       <div className="space-y-4">
         {product.map((item) => (
           <div key={item.id} className="flex items-center gap-4">
-            <div
+            <img
               className="aspect-square size-16 rounded-lg bg-cover bg-center bg-no-repeat"
-              style={{ backgroundImage: `url('http://172.16.10.24:9009${item.image}')` }}
-            ></div>
+              src={`${import.meta.env.VITE_API_URL}${item.image}`}
+            ></img>
             <div className="flex-1">
               <p className="font-medium text-gray-800">{item.name}</p>
               <p className="text-sm text-gray-500">Description: {item.description}</p>
