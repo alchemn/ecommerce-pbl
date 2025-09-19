@@ -9,7 +9,19 @@ const formatPrice = (price) => {
 };
 
 const OrderSummary = ({ order }) => {
-  const subtotal = order.product.reduce((acc, currentItem) => acc + currentItem.price, 0);
+  // Ensure order and order.product are not null
+  if (!order || !order.product) {
+    return (
+      <div className="rounded-xl bg-gray-50 p-6">
+        <h2 className="mb-4 text-xl font-semibold text-gray-800">Order Summary</h2>
+        <p>No product information available.</p>
+      </div>
+    );
+  }
+
+  const product = Array.isArray(order.product) ? order.product : [order.product];
+
+  const subtotal = product.reduce((acc, currentItem) => acc + currentItem.price, 0);
   const shipping = 50000;
   const taxes = subtotal * 0.1;
   const total = subtotal + shipping + taxes;
@@ -18,7 +30,7 @@ const OrderSummary = ({ order }) => {
     <div className="rounded-xl bg-gray-50 p-6">
       <h2 className="mb-4 text-xl font-semibold text-gray-800">Order Summary</h2>
       <div className="space-y-4">
-        {order.product.map((item) => (
+        {product.map((item) => (
           <div key={item.id} className="flex items-center gap-4">
             <div
               className="aspect-square size-16 rounded-lg bg-cover bg-center bg-no-repeat"

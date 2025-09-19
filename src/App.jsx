@@ -8,6 +8,7 @@ import CheckoutPage from "./page/Checkout";
 import About from "./page/About";
 
 import OrderList from "./page/OrderList";
+import AddProduct from "./page/AddProduct";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
           <Route path="/order/:id" element={<CheckoutPage />} />
           <Route path="/about" element={<About />} />
           <Route path="/payment" element={<OrderList />} />
+          <Route path="/add-product" element={<AddProduct />} />
         </Routes>
       </BrowserRouter>
     </>
