@@ -50,3 +50,13 @@ export const getAllProducts = () => {
 export const loginUser = (payload) => {
   return apiClient.post("/user/login", payload);
 };
+
+export const updateProduct = (id, formData) => {
+  return apiClient.put(`/product/${id}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+};
+
+export const deleteProduct = (id) => {
+  return apiClient.delete(`/product/${id}`);
+};

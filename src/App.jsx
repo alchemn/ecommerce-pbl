@@ -9,6 +9,7 @@ import About from "./page/About";
 
 import OrderList from "./page/OrderList";
 import AddProduct from "./page/AddProduct";
+import EditProduct from "./page/EditProduct";
 import Register from "./page/Register";
 import Login from "./page/Login";
 
@@ -26,6 +27,7 @@ export default function Home() {
           <Route path="/about" element={<About />} />
           <Route path="/payment" element={<OrderList />} />
           <Route path="/add-product" element={<AddProduct />} />
+          <Route path="/edit-product/:id" element={<EditProduct />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
         </Routes>
