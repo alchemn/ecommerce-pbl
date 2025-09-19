@@ -1,6 +1,4 @@
-export const getAllOrders = (params) => {
-  return apiClient.get("/order", { params });
-};
+
 
 import axios from "axios";
 
@@ -10,8 +8,19 @@ const apiClient = axios.create({
   baseURL,
 });
 
+
+export const createProduct = (formData) => {
+  return apiClient.post("/product", formData, {
+    headers: { "Content-Type": "multipart/form-data" }
+  });
+};
+
 export const getProductById = (id) => {
   return apiClient.get(`/product/${id}`);
+};
+
+export const getAllOrders = (params) => {
+  return apiClient.get("/order", { params });
 };
 
 export const createUser = (payload) => {
@@ -36,4 +45,8 @@ export const getLatestProducts = () => {
 
 export const getAllProducts = () => {
   return apiClient.get("/product");
+};
+
+export const loginUser = (payload) => {
+  return apiClient.post("/user/login", payload);
 };
