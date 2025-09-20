@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import prismaRandom from 'prisma-extension-random'
+const prisma = new PrismaClient().$extends(prismaRandom());
 
 
 
@@ -124,4 +125,26 @@ export const getLatestProduct = async (req,res) => {
   })
  
  } 
+}
+
+
+export const getCalculateProduct = async (req,res) => {
+  try {
+    const product = await prisma.product.findManyRandom(12,{
+      select:{
+        name:true,
+        price:true,
+        image:true
+      }
+    })
+    res.status(200).json({
+      message: "Calculate Product",
+      product
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    })
+  
+  }
 }
