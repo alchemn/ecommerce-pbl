@@ -20,20 +20,22 @@ const Login = () => {
     }
   }, [location.search]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    try {
-      const userData = { email, password };
-      await loginUser(userData);
-      navigate("/add-product");
-    } catch (error) {
-      alert(`Login gagal: ${error.message || "Terjadi kesalahan pada server."}`);
-      console.error("Error saat login:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  try {
+    const userData = { email, password };
+    const res = await loginUser(userData);
+    localStorage.setItem("token", res.data.token);
+    navigate("/add-product");
+  } catch (error) {
+    alert(`Login gagal: ${error.message || "Terjadi kesalahan pada server."}`);
+    console.error("Error saat login:", error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);

@@ -1,27 +1,63 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlusIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import HeaderAddProduct from "../components/HeaderAddProduct";
 import Footer from "../components/Footer";
 import SideBarAddProduct from "../components/SideBarAddProduct";
-import { createProduct } from "../api";
+import { createProduct, getCategories } from "../api"; // Impor getCategories
 import Button from "../components/Button";
 
 const AddProduct = () => {
   const navigate = useNavigate();
   const [notification, setNotification] = useState({ message: "", type: "" });
+  const [categories, setCategories] = useState([]); // State untuk kategori
+  const [fileName, setFileName] = useState(""); // State untuk nama file
+  const [imagePreview, setImagePreview] = useState(null); // State untuk pratinjau gambar
+
+  // Fetch kategori saat komponen dimuat
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await getCategories(); // Mengambil seluruh respons
+        setCategories(response.data); // Mengatur state dengan array dari response.data
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+        setNotification({ message: "Could not fetch categories.", type: "error" });
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFileName(file.name);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setFileName("");
+      setImagePreview(null);
+    }
+  };
 
   const submitData = async (e) => {
     e.preventDefault();
-
-    // FormData otomatis ambil semua input (termasuk file)
     const formData = new FormData(e.target);
+
+    // Cek apakah kategori dipilih
+    if (!formData.get("categoryId")) {
+      setNotification({ message: "Please select a category.", type: "error" });
+      return;
+    }
 
     try {
       await createProduct(formData);
       setNotification({ message: "Product created successfully!", type: "success" });
       setTimeout(() => {
-        navigate("/"); // redirect setelah sukses
+        navigate("/");
       }, 2000);
     } catch (error) {
       setNotification({ message: `Error creating product: ${error.message}`, type: "error" });
@@ -106,7 +142,11 @@ const AddProduct = () => {
                     <div className="mt-6">
                       <div className="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                         <div className="text-center">
-                          <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" />
+                          {imagePreview ? (
+                            <img src={imagePreview} alt="Image Preview" className="mx-auto h-32 w-32 object-cover rounded-md" />
+                          ) : (
+                            <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" />
+                          )}
                           <div className="mt-4 flex text-sm leading-6 text-gray-600">
                             <label
                               htmlFor="file-upload"
@@ -115,16 +155,23 @@ const AddProduct = () => {
                               <span>Upload a file</span>
                               <input
                                 id="file-upload"
-                                name="image" // ⬅️ harus sama dengan multer.single("image")
+                                name="image"
                                 type="file"
                                 className="sr-only"
+                                onChange={handleFileChange}
                               />
                             </label>
                             <p className="pl-1">or drag and drop</p>
                           </div>
-                          <p className="text-xs leading-5 text-gray-600">
-                            PNG, JPG, GIF up to 10MB
-                          </p>
+                           {fileName ? (
+                            <p className="text-sm leading-5 text-gray-800 mt-2">
+                              Selected file: <strong>{fileName}</strong>
+                            </p>
+                          ) : (
+                            <p className="text-xs leading-5 text-gray-600">
+                              PNG, JPG, GIF up to 10MB
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>
@@ -133,9 +180,31 @@ const AddProduct = () => {
 
                 {/* Kolom kanan */}
                 <div>
+                  {/* Category */}
                   <div className="rounded-xl bg-white p-6 shadow-sm">
+                    <h2 className="text-xl font-bold text-gray-900">Category</h2>
+                    <div className="mt-6">
+                      <label htmlFor="category" className="sr-only">Category</label>
+                      <select
+                        id="category"
+                        name="categoryId"
+                        className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        defaultValue=""
+                      >
+                        <option value="" disabled>Select a category</option>
+                        {categories.map((cat) => (
+                          <option key={cat.id} value={cat.id}>
+                            {cat.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Pricing */}
+                  <div className="mt-8 rounded-xl bg-white p-6 shadow-sm">
                     <h2 className="text-xl font-bold text-gray-900">
-                      Pricing & Inventory
+                      Pricing
                     </h2>
                     <div className="mt-6 space-y-6">
                       <div>

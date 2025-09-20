@@ -25,7 +25,8 @@ const Register = () => {
     setIsLoading(true);
     try {
       const userData = { email, password };
-      await createUser(userData);
+      const res = await createUser(userData);
+      localStorage.setItem("token",res.data.token)
       navigate("/login?registered=true");
     } catch (error) {
       alert(`Pendaftaran gagal: ${error.message || "Terjadi kesalahan pada server."}`);

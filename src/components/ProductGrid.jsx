@@ -1,47 +1,25 @@
 import React, { useState } from 'react';
-import useSWR from 'swr';
-import { getAllProducts, deleteProduct } from '../api';
 import CardBig from './CardBig';
 import { Link } from 'react-router-dom';
 import Button from './Button';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 
-const fetcher = () => getAllProducts().then((res) => res.data);
-
-const ProductGrid = () => {
-  const { data, error, isLoading, mutate } = useSWR('allProducts', fetcher);
+const ProductGrid = ({ products, handleDelete }) => {
   const user = JSON.parse(localStorage.getItem('user')); // Get user from localStorage
 
   // State untuk sorting
   const [sortBy, setSortBy] = useState('default');
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
-      try {
-        await deleteProduct(id);
-        mutate(); // Re-fetch the data after deletion
-      } catch (error) {
-        console.error('Failed to delete product:', error);
-      }
-    }
-  };
-
-  if (error) {
-    return <div className="col-span-full text-center text-red-500">Failed to load products</div>;
-  }
-
-  // ambil data produk
-  let products = data ? (data.product || data) : [];
-
   // Sorting logic
+  let sortedProducts = [...products];
   if (sortBy === 'name-asc') {
-    products = [...products].sort((a, b) => a.name.localeCompare(b.name));
+    sortedProducts = sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
   } else if (sortBy === 'name-desc') {
-    products = [...products].sort((a, b) => b.name.localeCompare(a.name));
+    sortedProducts = sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
   } else if (sortBy === 'price-asc') {
-    products = [...products].sort((a, b) => (a.price || 0) - (b.price || 0));
+    sortedProducts = sortedProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
   } else if (sortBy === 'price-desc') {
-    products = [...products].sort((a, b) => (b.price || 0) - (a.price || 0));
+    sortedProducts = sortedProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
   }
 
   return (
@@ -50,7 +28,7 @@ const ProductGrid = () => {
         <div className="flex-1">
           <h1 className="text-gray-900 text-3xl font-bold tracking-tight">All Products</h1>
           <p className="text-gray-500 text-sm mt-1">
-            {isLoading ? 'Loading...' : `Showing ${products?.length || 0} results`}
+            {`Showing ${sortedProducts?.length || 0} results`}
           </p>
         </div>
 
@@ -77,10 +55,8 @@ const ProductGrid = () => {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {isLoading ? (
-          <p className="col-span-full text-center">Loading products...</p>
-        ) : products.length > 0 ? (
-          products.map((product, index) => (
+        {sortedProducts.length > 0 ? (
+          sortedProducts.map((product, index) => (
             <div key={index} className="flex flex-col">
               <CardBig
                 id={product.id}

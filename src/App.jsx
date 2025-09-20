@@ -1,18 +1,36 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Dashboard from "./page/Dashboard";
 import ProductList from "./page/ProductList";
 import ProductDetail from "./page/ProductDetail";
 import Profile from "./page/Profile";
 import CheckoutPage from "./page/Checkout";
 import About from "./page/About";
-
 import OrderList from "./page/OrderList";
 import AddProduct from "./page/AddProduct";
 import EditProduct from "./page/EditProduct";
 import Register from "./page/Register";
 import Login from "./page/Login";
+import Loading from "./components/Loading";
 
 export default function Home() {
+  const [loading, setLoading] = useState(true);
+  const [hiding, setHiding] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHiding(true);
+      setTimeout(() => {
+        setLoading(false);
+      }, 500); // Corresponds to the duration of the fade-out animation
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) {
+    return <Loading hiding={hiding} />;
+  }
+
   return (
     <>
       <BrowserRouter>
