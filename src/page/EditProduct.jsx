@@ -14,6 +14,7 @@ const EditProduct = () => {
     name: "",
     description: "",
     price: "",
+    image: "",
   });
   const [notification, setNotification] = useState({ message: "", type: "" });
 
@@ -39,7 +40,15 @@ const EditProduct = () => {
 
   const submitData = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
+    const formData = new FormData();
+    formData.append("name", product.name);
+    formData.append("description", product.description);
+    formData.append("price", product.price);
+    formData.append("userId", 1);
+    const imageInput = document.querySelector("#file-upload");
+    if (imageInput.files[0]) {
+      formData.append("image", imageInput.files[0]);
+    }
 
     try {
       await updateProduct(id, formData);
@@ -56,6 +65,8 @@ const EditProduct = () => {
         type: "error",
       });
     }
+    console.log(formData);
+    
   };
 
   const handleDelete = async () => {
@@ -77,6 +88,7 @@ const EditProduct = () => {
       }
     }
   };
+  
 
   return (
     <form encType="multipart/form-data" onSubmit={submitData}>
