@@ -120,7 +120,7 @@ export const getLatestProduct = async (req,res) => {
     product
   })
  } catch (error) {
-  res.status(405).json({
+  res.status(500).json({
     message: error.message
   })
  
