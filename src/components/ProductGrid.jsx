@@ -4,6 +4,7 @@ import { getAllProducts, deleteProduct } from '../api';
 import CardBig from './CardBig';
 import { Link } from 'react-router-dom';
 import Button from './Button';
+import { ChevronDownIcon } from '@heroicons/react/24/solid';
 
 const fetcher = () => getAllProducts().then((res) => res.data);
 
@@ -54,11 +55,11 @@ const ProductGrid = () => {
         </div>
 
         {/* Dropdown Sort */}
-        <div>
+        <div className='relative'>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="border rounded px-3 py-2"
+            className="block w-full appearance-none border border-gray-300 rounded-md px-3 pr-10 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
             <option value="default">Sort By</option>
             <option value="name-asc">Name A-Z</option>
@@ -66,6 +67,12 @@ const ProductGrid = () => {
             <option value="price-asc">Price Low to High</option>
             <option value="price-desc">Price High to Low</option>
           </select>
+          
+          <div>
+          <ChevronDownIcon width={35} className='pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 pt-2'/>
+
+          </div>
+          
         </div>
       </div>
 

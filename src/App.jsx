@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./page/Dashboard";
 import ProductList from "./page/ProductList";
 import ProductDetail from "./page/ProductDetail";
-import ShoppingCart from "./page/Cart";
 import Profile from "./page/Profile";
 import CheckoutPage from "./page/Checkout";
 import About from "./page/About";

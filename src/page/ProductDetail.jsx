@@ -103,7 +103,7 @@ function ProductDetail() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
-              <ProductImage
+              <ProductImage 
                 image={`${API}${product.image}`}
                 name={product.name}
               />
@@ -127,7 +127,10 @@ function ProductDetail() {
                       key={p.id}
                       id={p.id}
                       name={p.name}
-                      price={p.price}
+                      price={p.price.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              })}
                       image={`${API}${p.image}`}
                     />
                   ))
