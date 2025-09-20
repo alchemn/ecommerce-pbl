@@ -49,7 +49,7 @@ const CardBig = ({ name, price, owner, image, id }) => {
             <div className="flex justify-between items-center mt-4">
               <p className="text-lg font-bold text-gray-900">{price}</p>
               <button className="bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-lg px-3 py-1.5 text-sm font-semibold transition">
-                Add to cart
+                Detail Barang
               </button>
             </div>
           </div>

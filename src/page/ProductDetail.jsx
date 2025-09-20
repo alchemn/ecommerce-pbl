@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductById, createOrder } from "../api";
+import { getProductById, createOrder, getMiniProduct } from "../api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ProductImage from "../components/ProductImage";
 import ProductInfo from "../components/ProductInfo";
+import Card from "../components/Card";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -12,9 +13,9 @@ function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [isBuying, setIsBuying] = useState(false);
   const [error, setError] = useState(null);
+  const [miniProducts, setMiniProducts] = useState([]);
   const navigate = useNavigate();
-  const API= import.meta.env.VITE_API_URL
-
+  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -29,6 +30,20 @@ function ProductDetail() {
     };
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    const fetchMini = async () => {
+      try {
+        const res = await getMiniProduct();
+        // backend returns { message: 'Latest Product', product: [...] }
+        const list = res?.data?.product || res?.data || [];
+        setMiniProducts(list);
+      } catch (err) {
+        console.error("error fetching mini products:", err);
+      }
+    };
+    fetchMini();
+  }, []);
 
   const handleBuyNow = async () => {
     setIsBuying(true);
@@ -87,8 +102,11 @@ function ProductDetail() {
               <span className="font-medium text-slate-800">{product.name}</span>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              <ProductImage image={`${API}${product.image}`} name={product.name} />
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-stretch">
+              <ProductImage
+                image={`${API}${product.image}`}
+                name={product.name}
+              />
               <ProductInfo
                 product={product}
                 isBuying={isBuying}
@@ -96,7 +114,30 @@ function ProductDetail() {
                 error={error}
               />
             </div>
+
+            {/* Produk Lainnya section */}
+            <section className="mt-12">
+              <h2 className="text-2xl font-semibold text-slate-800 mb-4">
+                Produk Lainnya
+              </h2>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                {miniProducts && miniProducts.length > 0 ? (
+                  miniProducts.map((p) => (
+                    <Card
+                      key={p.id}
+                      id={p.id}
+                      name={p.name}
+                      price={p.price}
+                      image={`${API}${p.image}`}
+                    />
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500">Tidak ada produk lain.</p>
+                )}
+              </div>
+            </section>
           </div>
+          <div></div>
         </main>
         <Footer />
       </div>

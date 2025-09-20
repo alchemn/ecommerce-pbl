@@ -60,3 +60,7 @@ export const updateProduct = (id, formData) => {
 export const deleteProduct = (id) => {
   return apiClient.delete(`/product/${id}`);
 };
+
+export const getMiniProduct = () => {
+  return apiClient.get('/product/calculate')
+}
