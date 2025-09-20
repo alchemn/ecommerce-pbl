@@ -26,26 +26,39 @@ export const getProductById = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-    try {
-      const { name,description,price,userId } = req.body;
-      const image = req.file ? `/public/uploads/${req.file.filename}` : req.body.image;
-      const product = await prisma.product.create({
-        data:{
-            name:name,
-            description:description,
-            price:parseFloat(price),
-            image:image,
-            user: {
-              connect: {
-                id: Number(userId)
-              }
-            }
-        }
-      });
-      res.status(200).json(product);
-    } catch (error) {
-      res.status(400).json({ message: error.message });
+  try {
+    const { name, description, price, userId, categoryId } = req.body; // Tambah categoryId
+    const image = req.file ? `/public/uploads/${req.file.filename}` : req.body.image;
+
+    const productData = {
+      name: name,
+      description: description,
+      price: parseFloat(price),
+      image: image,
+      user: {
+        connect: {
+          id: Number(userId),
+        },
+      },
+    };
+
+    // Jika categoryId ada, tambahkan ke data produk
+    if (categoryId) {
+      productData.category = {
+        connect: {
+          id: Number(categoryId),
+        },
+      };
     }
+
+    const product = await prisma.product.create({
+      data: productData,
+    });
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 export const updateProduct = async (req, res) => {

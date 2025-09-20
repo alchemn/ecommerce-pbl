@@ -1,17 +1,19 @@
 import express from 'express'
-import { addProfile, createuser, deleteuser, getuser, getuserById, updateProfile, updateuser, loginUser } from '../controller/user.js'
+import { addProfile, deleteuser, getuser, getuserById, updateProfile} from '../controller/user.js'
+import { loginUser, registerUser } from '../controller/auth.js'
 
+import { authMiddleware,roleMiddleware } from '../middleware/authMiddleware.js'
 
 const userRouter = express.Router()
 
 
 userRouter.get('/', getuser)
-userRouter.get('/:id', getuserById)
-userRouter.post('/', createuser)
+userRouter.get('/:id',authMiddleware,getuserById)
+userRouter.post('/', registerUser)
 userRouter.post('/login', loginUser)
-userRouter.post('/profile', addProfile)
-userRouter.put('/profile/:id', updateProfile)
-userRouter.put('/:id', updateuser)
-userRouter.delete('/:id', deleteuser)
+userRouter.post('/profile', authMiddleware,addProfile)
+userRouter.put('/profile/:id', authMiddleware,updateProfile)
+// userRouter.put('/:id', updateuser)
+userRouter.delete('/:id', authMiddleware,roleMiddleware(["SELLER"]),deleteuser)
 
 export default userRouter;
