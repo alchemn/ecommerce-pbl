@@ -82,7 +82,7 @@ const EditProduct = () => {
     <form encType="multipart/form-data" onSubmit={submitData}>
       <div
         className="relative flex min-h-screen w-full flex-col bg-gray-50"
-        style={{ fontFamily: '''Inter, "Noto Sans", sans-serif''' }}
+        style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}
       >
         <HeaderAddProduct />
         <div className="flex flex-1">

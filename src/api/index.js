@@ -40,7 +40,7 @@ export const getCategories = () => {
 };
 
 export const getLatestProducts = () => {
-  return apiClient.get("/product");
+  return apiClient.get("/product/last");
 };
 
 export const getAllProducts = () => {

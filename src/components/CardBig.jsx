@@ -10,10 +10,10 @@ const CardBig = ({ name, price, owner, image, id }) => {
   return (
     <>
       <Link to={`/product/${id}`}>
-        <div className="group flex flex-col bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+        <div className="flex flex-col bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
           <div className="relative">
             <img
-              className="w-full h-56 bg-center bg-cover"
+              className=" w-full h-56 bg-center object-contain"
               src={image}
             ></img>
             <div onClick={(e)=> {

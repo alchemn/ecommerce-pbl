@@ -11,7 +11,7 @@ function OrderList() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const userId = 2;
+    const userId = 1;
     getAllOrders({ userId })
       .then(res => {
         setOrders(Array.isArray(res.data) ? res.data : []);

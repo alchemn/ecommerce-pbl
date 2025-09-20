@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useSWR from 'swr';
 import { getAllProducts, deleteProduct } from '../api';
 import CardBig from './CardBig';
@@ -10,6 +10,9 @@ const fetcher = () => getAllProducts().then((res) => res.data);
 const ProductGrid = () => {
   const { data, error, isLoading, mutate } = useSWR('allProducts', fetcher);
   const user = JSON.parse(localStorage.getItem('user')); // Get user from localStorage
+
+  // State untuk sorting
+  const [sortBy, setSortBy] = useState('default');
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
@@ -26,21 +29,51 @@ const ProductGrid = () => {
     return <div className="col-span-full text-center text-red-500">Failed to load products</div>;
   }
 
+  // ambil data produk
+  let products = data ? (data.product || data) : [];
+
+  // Sorting logic
+  if (sortBy === 'name-asc') {
+    products = [...products].sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sortBy === 'name-desc') {
+    products = [...products].sort((a, b) => b.name.localeCompare(a.name));
+  } else if (sortBy === 'price-asc') {
+    products = [...products].sort((a, b) => (a.price || 0) - (b.price || 0));
+  } else if (sortBy === 'price-desc') {
+    products = [...products].sort((a, b) => (b.price || 0) - (a.price || 0));
+  }
+
   return (
     <>
       <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
         <div className="flex-1">
           <h1 className="text-gray-900 text-3xl font-bold tracking-tight">All Products</h1>
           <p className="text-gray-500 text-sm mt-1">
-            {isLoading ? 'Loading...' : `Showing ${data?.products?.length || data?.length || 0} results`}
+            {isLoading ? 'Loading...' : `Showing ${products?.length || 0} results`}
           </p>
         </div>
+
+        {/* Dropdown Sort */}
+        <div>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="border rounded px-3 py-2"
+          >
+            <option value="default">Sort By</option>
+            <option value="name-asc">Name A-Z</option>
+            <option value="name-desc">Name Z-A</option>
+            <option value="price-asc">Price Low to High</option>
+            <option value="price-desc">Price High to Low</option>
+          </select>
+        </div>
       </div>
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {isLoading ? (
           <p className="col-span-full text-center">Loading products...</p>
-        ) : data && (data.product || data).length > 0 ? (
-          (data.product || data).map((product, index) => (
+        ) : products.length > 0 ? (
+          products.map((product, index) => (
             <div key={index} className="flex flex-col">
               <CardBig
                 id={product.id}
