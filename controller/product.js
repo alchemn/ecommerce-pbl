@@ -50,12 +50,17 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     try {
       const { name, description, price } = req.body;
+      let image;
+      if (req.file) {
+        image = `/public/uploads/${req.file.filename}`;
+      }
       const product = await prisma.product.update({
         where: { id: Number(req.params.id) },
         data: {
           name: name,
           description: description,
-          price: price,
+          price: parseFloat(price),
+          ...(image && { image: image }), // Only include image in data if it's updated
         },
       });
       res.status(200).json(product)
@@ -65,14 +70,23 @@ export const updateProduct = async (req, res) => {
 };
 
 export const deleteProduct = async (req, res) => {
-    try {
-      const product = await prisma.product.delete({
-        where: { id: Number(req.params.id) },
-      });
-      res.status(200).json(product);
-    } catch (error) {
-      res.status(400).json({ message: error.message });
-    }
+  try {
+    const productId = Number(req.params.id);
+
+    // Delete related orders first
+    await prisma.order.deleteMany({
+      where: { productId: productId },
+    });
+
+    // Then delete the product
+    const product = await prisma.product.delete({
+      where: { id: productId },
+    });
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 export const fileUpload = async (req,res) => {
@@ -82,10 +96,32 @@ export const fileUpload = async (req,res) => {
       message: "File Not Found"
     })
   }
+  console.log(files);
+  
   const imageFile = files.map(file => file.filename);
   const pathImageFile = imageFile.map(filename => `/public/uploads/${filename}`)
   res.status(200).json({
     message: "File Sucsess Uploaded",
     image: pathImageFile
   })
+}
+
+export const getLatestProduct = async (req,res) => {
+ try {
+  const product = await prisma.product.findMany({
+    orderBy: {
+      createdAt: "desc"
+    },
+    take: 4
+  })
+  res.status(200).json({
+    message: "Latest Product",
+    product
+  })
+ } catch (error) {
+  res.status(405).json({
+    message: error.message
+  })
+ 
+ } 
 }
