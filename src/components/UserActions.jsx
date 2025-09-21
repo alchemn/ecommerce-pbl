@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HeartIcon, ShoppingCartIcon } from '@heroicons/react/24/outline';
+import { HeartIcon, } from '@heroicons/react/24/outline';
 
 const UserActions = () => (
   <div className="flex items-center gap-2">
