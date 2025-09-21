@@ -26,11 +26,7 @@ function CheckoutPage() {
     const fetchOrder = async () => {
       try {
         const response = await getOrderById(id);
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        const data = await response.json();
-        setOrder(data);
+        setOrder(response.data);
       } catch (e) {
         setError(e.message);
       } finally {

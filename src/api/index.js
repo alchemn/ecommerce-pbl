@@ -54,7 +54,7 @@ export const createOrder = (payload) => {
 };
 
 export const getOrderById = (id) => {
-  return fetch(`${baseURL}/order/${id}`);
+  return apiClient.get(`/order/${id}`);
 };
 
 export const getCategories = () => {
