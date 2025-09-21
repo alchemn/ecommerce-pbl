@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+import prisma from "../utils/prisma.js";
 
 export const getcategory = async ( req, res) => {
     try {
@@ -48,12 +47,20 @@ export const getCategoryById = async (req,res) => {
 
 export const getProductByCategory = async (req,res) => {
   try {
-    const category = await prisma.category.findUnique({
-    where : {id: Number(req.params.id)},
+    const category = await prisma.category.findFirst({
+    where : {
+        name: {
+            contains: req.params.name,
+            mode: 'insensitive'
+        }
+    },
     include: {
       products:true
     }
     })
+    if (!category) {
+      return res.status(404).json({ message: "Category not found" });
+    }
     res.status(200).json({
       message: "Product By Category",
       category

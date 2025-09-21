@@ -1,9 +1,6 @@
-import { PrismaClient } from '@prisma/client'
-import jwt from 'jsonwebtoken'
-import bcrypt from 'bcrypt'
-
-
-const prisma = new PrismaClient()
+import prisma from "../utils/prisma.js";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 
 

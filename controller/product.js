@@ -1,17 +1,41 @@
-import { PrismaClient } from "@prisma/client";
-import prismaRandom from 'prisma-extension-random'
-const prisma = new PrismaClient().$extends(prismaRandom());
+import prisma from "../utils/prisma.js";
 
 
 
 export const getProduct = async (req, res) => {
     try {
-        const product = await prisma.product.findMany()
-        res.status(200).json({message: "List Of Product", product})
-    }catch (error) {
-        res.status(400).json({ message: error.message})
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+        const skip = (page - 1) * limit;
+        const search = req.query.search || '';
+
+        const where = search ? {
+            name: {
+                contains: search,
+                mode: 'insensitive', // Case-insensitive search
+            },
+        } : {};
+
+        const [product, totalProducts] = await prisma.$transaction([
+            prisma.product.findMany({
+                where: where,
+                skip: skip,
+                take: limit,
+            }),
+            prisma.product.count({ where: where }),
+        ]);
+
+        res.status(200).json({
+            message: "List Of Product",
+            product,
+            totalPages: Math.ceil(totalProducts / limit),
+            currentPage: page,
+            totalProducts: totalProducts,
+        });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
-}
+};
 
 export const getProductById = async (req, res) => {
     try {
@@ -87,17 +111,21 @@ export const deleteProduct = async (req, res) => {
   try {
     const productId = Number(req.params.id);
 
-    // Delete related orders first
-    await prisma.order.deleteMany({
-      where: { productId: productId },
+    const deletedProduct = await prisma.$transaction(async (tx) => {
+      // Delete related orders first
+      await tx.order.deleteMany({
+        where: { productId: productId },
+      });
+
+      // Then delete the product
+      const product = await tx.product.delete({
+        where: { id: productId },
+      });
+
+      return product;
     });
 
-    // Then delete the product
-    const product = await prisma.product.delete({
-      where: { id: productId },
-    });
-
-    res.status(200).json(product);
+    res.status(200).json(deletedProduct);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }

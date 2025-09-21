@@ -6,7 +6,7 @@ import { fileUpload } from '../controller/product.js';
 const categoryRouter = express.Router()
 
 categoryRouter.get('/', getcategory)
-categoryRouter.get('/:id', getProductByCategory)
+categoryRouter.get('/name/:name', getProductByCategory)
 categoryRouter.post('/', createCategory)
 categoryRouter.post('/upload', upload.single('image'), fileUpload)
 
