@@ -47,7 +47,6 @@ const AddProduct = () => {
     e.preventDefault();
     const formData = new FormData(e.target);
 
-    // Cek apakah kategori dipilih
     if (!formData.get("categoryId")) {
       setNotification({ message: "Please select a category.", type: "error" });
       return;

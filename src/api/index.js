@@ -17,7 +17,9 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
-
+export const getUser = () => {
+  return apiClient.get("/user");
+}
 
 export const createProduct = (formData) => {
   return apiClient.post("/product", formData, {

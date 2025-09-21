@@ -8,7 +8,7 @@ import {
   ArrowRightStartOnRectangleIcon,
 } from "@heroicons/react/24/solid";
 
-const SideBarAddProduct = () => {
+const SideBar = ({ setActiveView }) => {
   return (
     <aside className="w-64 flex-shrink-0 border-r border-gray-200 bg-white py-6">
       <div className="flex items-center gap-2 px-6">
@@ -18,6 +18,7 @@ const SideBarAddProduct = () => {
       <nav className="mt-8 space-y-2 px-4">
         <a
           href="#"
+          onClick={() => setActiveView("dashboard")}
           className="flex items-center gap-2 rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700"
         >
           <Squares2X2Icon className="h-5 w-5" />
@@ -25,6 +26,7 @@ const SideBarAddProduct = () => {
         </a>
         <a
           href="#"
+          onClick={() => setActiveView("orders")}
           className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
         >
           <ShoppingCartIcon className="h-5 w-5" />
@@ -32,6 +34,7 @@ const SideBarAddProduct = () => {
         </a>
         <a
           href="#"
+          onClick={() => setActiveView("products")}
           className="flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white"
         >
           <TagIcon className="h-5 w-5" />
@@ -39,6 +42,7 @@ const SideBarAddProduct = () => {
         </a>
         <a
           href="#"
+          onClick={() => setActiveView("customers")}
           className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
         >
           <UserGroupIcon className="h-5 w-5" />
@@ -70,4 +74,4 @@ const SideBarAddProduct = () => {
   );
 };
 
-export default SideBarAddProduct;
+export default SideBar;
