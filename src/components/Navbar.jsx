@@ -21,7 +21,7 @@ const Navbar = () => {
             ></path>
           </svg>
           <h2 className="text-gray-900 text-2xl font-bold leading-tight tracking-tighter">
-            ShopSmart
+            PumaApp
           </h2>
         </Link>
         <NavLinks />

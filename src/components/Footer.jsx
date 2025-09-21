@@ -1,17 +1,32 @@
 const Footer = () => {
   const year = new Date().getFullYear();
+
   return (
     <footer className="bg-gray-900 text-gray-300">
-      <div className="max-w-screen-xl mx-auto px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-12">
-        
+      <div className="max-w-screen-xl mx-auto px-6 lg:px-8 py-14 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-12">
         {/* Left Section */}
         <div className="col-span-2 space-y-6">
           {/* Logo */}
-          <h2 className="text-white text-2xl font-bold">ShopSmart</h2>
+          <div className="flex flex-row gap-4">
+            <svg
+              className="h-8 w-8"
+              fill="none"
+              viewBox="0 0 48 48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"
+                fill="currentColor"
+              ></path>
+            </svg>
+            <h2 className="text-white text-3xl font-extrabold tracking-wide">
+              PumaApp
+            </h2>
+          </div>
 
           {/* Partner Button */}
-          <button className="bg-gray-800 text-gray-200 px-4 py-2 rounded-md hover:bg-gray-700 transition">
-            Partner with ShopSmart
+          <button className="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-500 transition">
+            Partner with PumaApp
           </button>
 
           {/* Payment Partners */}
@@ -19,19 +34,23 @@ const Footer = () => {
             <h3 className="text-white font-semibold mb-3">Payment Partners</h3>
             <div className="grid grid-cols-3 gap-3">
               {[
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/1920px-Visa_2021.svg.png",
-                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/800px-Mastercard-logo.svg.png",
+                "https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg",
+                "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg",
                 "https://via.placeholder.com/80x40?text=BCA",
                 "https://via.placeholder.com/80x40?text=Mandiri",
                 "https://via.placeholder.com/80x40?text=BNI",
                 "https://via.placeholder.com/80x40?text=Gopay",
               ].map((logo, i) => (
-                <img
+                <div
                   key={i}
-                  src={logo}
-                  alt="Partner"
-                  className="h-8 object-cover bg-white rounded p-1"
-                />
+                  className="flex items-center justify-center bg-white rounded-md p-1 shadow"
+                >
+                  <img
+                    src={logo}
+                    alt="Partner"
+                    className="h-7 object-contain"
+                  />
+                </div>
               ))}
             </div>
           </div>
@@ -41,10 +60,31 @@ const Footer = () => {
         <div>
           <h3 className="text-white font-semibold mb-4">About</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-white">How to Shop</a></li>
-            <li><a href="#" className="hover:text-white">Contact Us</a></li>
-            <li><a href="#" className="hover:text-white">Help Center</a></li>
-            <li><a href="#" className="hover:text-white">Careers</a></li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                How to Shop
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Contact Us
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Help Center
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Training and Course
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Careers
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -52,10 +92,46 @@ const Footer = () => {
         <div>
           <h3 className="text-white font-semibold mb-4">Products</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-white">Electronics</a></li>
-            <li><a href="#" className="hover:text-white">Fashion</a></li>
-            <li><a href="#" className="hover:text-white">Groceries</a></li>
-            <li><a href="#" className="hover:text-white">Furniture</a></li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Aksesoris
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Elektronik
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Mainan
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Pakaian
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Olahraga
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Kecantikan
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Kesehatan
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Sepatu
+              </a>
+            </li>
           </ul>
         </div>
 
@@ -63,24 +139,38 @@ const Footer = () => {
         <div>
           <h3 className="text-white font-semibold mb-4">Others</h3>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:text-white">Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-white">Terms & Conditions</a></li>
-            <li><a href="#" className="hover:text-white">Blog</a></li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Privacy Policy
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Terms & Conditions
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:text-indigo-400 transition">
+                Blog
+              </a>
+            </li>
           </ul>
         </div>
 
         {/* App Download */}
         <div>
-          <h3 className="text-white font-semibold mb-4">Download ShopSmart App</h3>
-          <div className="space-y-3">
-            <a href="#">
+          <h3 className="text-white font-semibold mb-4">
+            Download PumaApp
+          </h3>
+          <div className="space-y-4">
+            <a href="#" className="block hover:opacity-90 transition">
               <img
                 className="h-12"
                 src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
                 alt="Google Play"
               />
             </a>
-            <a href="#">
+            <a href="#" className="block hover:opacity-90 transition">
               <img
                 className="h-12"
                 src="https://upload.wikimedia.org/wikipedia/commons/6/67/App_Store_(iOS).svg"
@@ -92,8 +182,9 @@ const Footer = () => {
       </div>
 
       {/* Bottom */}
-      <div className="border-t border-gray-700 mt-8 py-4 text-center text-xs text-gray-500">
-        © {year} ShopSmart. All rights reserved.
+      <div className="border-t border-gray-700 mt-8 py-5 text-center text-xs text-gray-500">
+        © {year} <span className="font-semibold text-gray-300">ShopSmart</span>.
+        All rights reserved.
       </div>
     </footer>
   );
