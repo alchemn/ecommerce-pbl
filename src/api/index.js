@@ -19,6 +19,18 @@ apiClient.interceptors.request.use((config) => {
 
 
 
+export const getUser = () => {
+  return apiClient.get("/user");
+}
+
+
+export const createProfile = (payload) => {
+  return apiClient.post("/user/profile", payload);
+}
+
+export const updateProfile = (id, payload) => {
+  return apiClient.put(`/user/profile/${id}`, payload);
+}
 export const createProduct = (formData) => {
   return apiClient.post("/product", formData, {
     headers: { "Content-Type": "multipart/form-data" }
@@ -73,4 +85,12 @@ export const deleteProduct = (id) => {
 
 export const getMiniProduct = () => {
   return apiClient.get('/product/calculate')
+}
+
+export const getAllProfiles = () => {
+  return apiClient.get("/user/profile");
+};
+
+export const getProductByCategory = (id) => {
+  return apiClient.get(`/category/${id}`)
 }

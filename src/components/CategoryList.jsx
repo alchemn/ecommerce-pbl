@@ -23,6 +23,7 @@ const CategoryList = () => {
       <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4 ">
         {(categories || []).map((category) => (
           <Category
+          id={category.id}
             key={category.id}
             name={category.name}
             image={`${API}/${category.image}`}

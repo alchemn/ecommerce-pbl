@@ -61,7 +61,10 @@ const ProductGrid = ({ products, handleDelete }) => {
               <CardBig
                 id={product.id}
                 name={product.name || 'No Name'}
-                price={product.price || 'Rp0'}
+                price={product.price.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR",
+              }) || 'Rp0'}
                 owner={product.owner || 'Unknown'}
                 image={`${import.meta.env.VITE_API_URL}${product.image}`}
               />

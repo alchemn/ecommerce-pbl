@@ -23,7 +23,7 @@ const CardBig = ({ name, price, owner, image, id }) => {
               <HeartIcon width={30} className={isFav ? "text-red-500 fill-red-500" : "text-gray-600"}/>
             </div>
           </div>
-          <div className="p-4 flex flex-col flex-grow">
+          <div className="p-4 flex flex-col flex-grow ">
             <p className="text-sm text-gray-500">By {owner}</p>
             <h3 className="text-base font-semibold text-gray-800 mt-1 flex-grow">
               {name}
@@ -47,9 +47,9 @@ const CardBig = ({ name, price, owner, image, id }) => {
               <span className="text-xs text-gray-500 ml-1.5">(88)</span>
             </div>
             <div className="flex justify-between items-center mt-4">
-              <p className="text-lg font-bold text-gray-900">{price}</p>
+              <p className="text-sm font-bold text-gray-900">{price}</p>
               <button className="bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-lg px-3 py-1.5 text-sm font-semibold transition">
-                Detail Barang
+                Detail
               </button>
             </div>
           </div>

@@ -8,9 +8,9 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-4 md:px-10 py-4 shadow-sm bg-white sticky top-0 z-20">
-      <div className="flex items-center gap-4 md:gap-10">
-        <Link to="/" className="flex items-center gap-2 md:gap-3 text-indigo-600">
+    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-10 py-4 shadow-sm bg-white sticky top-0 z-20">
+      <div className="flex items-center gap-10">
+        <Link to="/" className="flex items-center gap-3 text-indigo-600">
           <svg
             className="h-6 w-6 md:h-8 md:w-8"
             fill="none"
@@ -22,7 +22,7 @@ const Navbar = () => {
               fill="currentColor"
             ></path>
           </svg>
-          <h2 className="text-gray-900 text-xl md:text-2xl font-bold leading-tight tracking-tighter">
+          <h2 className="text-gray-900 text-2xl font-bold leading-tight tracking-tighter">
             ShopSmart
           </h2>
         </Link>
