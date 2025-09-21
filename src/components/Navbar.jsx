@@ -8,7 +8,7 @@ const Navbar = () => {
   return (
     <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-10 py-4 shadow-sm bg-white sticky top-0 z-20">
       <div className="flex items-center gap-10">
-        <Link to="/" className="flex items-center gap-3 text-indigo-600">
+        <Link to="/" className="flex items-center gap-3 text-brand-primary">
           <svg
             className="h-8 w-8"
             fill="none"
@@ -20,7 +20,7 @@ const Navbar = () => {
               fill="currentColor"
             ></path>
           </svg>
-          <h2 className="text-gray-900 text-2xl font-bold leading-tight tracking-tighter">
+          <h2 className="text-brand-dark text-2xl font-bold leading-tight tracking-tighter">
             PumaApp
           </h2>
         </Link>
