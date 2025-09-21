@@ -162,11 +162,11 @@ const Footer = () => {
           <h3 className="text-white font-semibold mb-4">
             Download PumaApp
           </h3>
-          <div className="space-y-4">
+          <div className="space-y-4 flex flex-row gap-4">
             <a href="#" className="block hover:opacity-90 transition">
               <img
-                className="h-12"
-                src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg"
+                className="h-12 bg-amber-50 rounded-lg"
+                src='/public/playstore.png'
                 alt="Google Play"
               />
             </a>
