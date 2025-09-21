@@ -5,25 +5,32 @@ import { MagnifyingGlassIcon, HeartIcon, ShoppingCartIcon, ArrowRightIcon } from
 import { Squares2X2Icon } from '@heroicons/react/24/solid';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { getUser } from '../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
 function OrderList() {
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = 1;
-    getAllOrders({ userId })
-      .then(res => {
-        setOrders(Array.isArray(res.data) ? res.data : []);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError('Failed to fetch orders');
-        setLoading(false);
-      });
-  }, []);
+    const user = getUser();
+    if (user) {
+      getAllOrders({ userId: user.id })
+        .then(res => {
+          setOrders(Array.isArray(res.data) ? res.data : []);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError('Failed to fetch orders');
+          setLoading(false);
+        });
+    } else {
+      navigate('/login');
+    }
+  }, [navigate]);
 
   function formatDate(dateString) {
     const date = new Date(dateString);

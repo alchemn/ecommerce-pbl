@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import SideBarAddProduct from "../components/admin/SideBar";
 import { getProductById, updateProduct, deleteProduct } from "../api";
 import Button from "../components/Button";
+import { getUser } from "../utils/auth";
 
 const EditProduct = () => {
   const { id } = useParams();
@@ -41,10 +42,17 @@ const EditProduct = () => {
   const submitData = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    const user = getUser();
+
+    if (!user) {
+      setNotification({ message: "Please login to update a product.", type: "error" });
+      return;
+    }
+
     formData.append("name", product.name);
     formData.append("description", product.description);
     formData.append("price", product.price);
-    formData.append("userId", 1);
+    formData.append("userId", user.id);
     const imageInput = document.querySelector("#file-upload");
     if (imageInput.files[0]) {
       formData.append("image", imageInput.files[0]);

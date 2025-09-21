@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import SideBarAddProduct from "../components/admin/SideBar";
 import { createProduct, getCategories } from "../api"; // Impor getCategories
 import Button from "../components/Button";
+import { getUser } from "../utils/auth";
 
 const AddProduct = () => {
   const navigate = useNavigate();
@@ -48,6 +49,14 @@ const AddProduct = () => {
     e.preventDefault();
     const form=e.target;
     const formData = new FormData(e.target);
+    const user = getUser();
+
+    if (!user) {
+      setNotification({ message: "Please login to create a product.", type: "error" });
+      return;
+    }
+
+    formData.append("userId", user.id);
 
     if (!formData.get("categoryId")) {
       setNotification({ message: "Please select a category.", type: "error" });
@@ -233,11 +242,6 @@ const AddProduct = () => {
                           />
                         </div>
                       </div>
-                      <input
-                        type="hidden"
-                        name="userId"
-                        value="1" // contoh default userId
-                      />
                     </div>
                   </div>
                 </div>

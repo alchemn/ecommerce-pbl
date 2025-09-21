@@ -6,7 +6,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { getAllProfiles, createProfile, updateProfile } from "../api";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { getUser } from "../utils/auth";
 
 
 function Profile() {
@@ -23,19 +23,18 @@ function Profile() {
     const fetchProfile = async () => {
       setLoading(true);
       try {
-        const token = localStorage.getItem("token");
-        if (!token) {
+        const user = getUser();
+        if (!user) {
           navigate("/login");
           return;
         }
-        const decodedToken = jwtDecode(token);
-        const userId = decodedToken.userId;
-        setEmail(decodedToken.email);
+        
+        setEmail(user.email);
 
 
         const response = await getAllProfiles();
         const profiles = response.data.data;
-        const userProfile = profiles.find(p => p.userId === userId);
+        const userProfile = profiles.find(p => p.userId === user.id);
 
         if (userProfile && userProfile.profile) {
           setProfileId(userProfile.profile.id);
@@ -60,11 +59,13 @@ function Profile() {
     setError(null);
 
     try {
-      const token = localStorage.getItem("token");
-      const decodedToken = jwtDecode(token);
-      const userId = decodedToken.userId;
+      const user = getUser();
+      if (!user) {
+        navigate("/login");
+        return;
+      }
 
-      const profileData = { name, addres, phone, userId };
+      const profileData = { name, addres, phone, userId: user.id };
 
       if (profileId) {
         await updateProfile(profileId, profileData);

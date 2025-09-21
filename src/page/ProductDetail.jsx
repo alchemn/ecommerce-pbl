@@ -6,6 +6,7 @@ import Footer from "../components/Footer";
 import ProductImage from "../components/ProductImage";
 import ProductInfo from "../components/ProductInfo";
 import Card from "../components/Card";
+import { getUser } from "../utils/auth";
 
 function ProductDetail() {
   const { id } = useParams();
@@ -49,16 +50,19 @@ function ProductDetail() {
     setIsBuying(true);
     setError(null);
     try {
+      const user = getUser();
+      if (!user) {
+        navigate("/login");
+        return;
+      }
+
       if (!product) {
         setError("Product not loaded");
         return;
       }
 
-      const storedUserId = localStorage.getItem("userId");
-      const userId = storedUserId ? Number(storedUserId) : 1;
-
       const payload = {
-        userId,
+        userId: user.id,
         productIds: [product.id],
       };
 
