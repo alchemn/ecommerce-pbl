@@ -34,12 +34,17 @@ const Footer = () => {
             <h3 className="text-white font-semibold mb-3">Payment Partners</h3>
             <div className="grid grid-cols-3 gap-3">
               {[
-                "https://upload.wikimedia.org/wikipedia/commons/d/d6/Visa_2021.svg",
+                "/public/visa.png",
                 "https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg",
-                "https://via.placeholder.com/80x40?text=BCA",
-                "https://via.placeholder.com/80x40?text=Mandiri",
-                "https://via.placeholder.com/80x40?text=BNI",
-                "https://via.placeholder.com/80x40?text=Gopay",
+                "/public/gopay.png",
+                "https://static.cdnlogo.com/logos/o/41/ovo.svg",
+                "https://static.cdnlogo.com/logos/d/5/dana.svg",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/LinkAja.svg/1200px-LinkAja.svg.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/ShopeePay.svg/1200px-ShopeePay.svg.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/QRIS_Logo.svg/1200px-QRIS_Logo.svg.png",
+                "https://static.cdnlogo.com/logos/b/1/bca.svg",
+                "https://static.cdnlogo.com/logos/b/21/bank-mandiri.svg",
+                "https://static.cdnlogo.com/logos/b/7/bni.svg",
               ].map((logo, i) => (
                 <div
                   key={i}

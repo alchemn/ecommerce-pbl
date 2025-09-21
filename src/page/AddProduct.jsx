@@ -1,85 +1,24 @@
-import { useState, useEffect,useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { PlusIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import HeaderAddProduct from "../components/HeaderAddProduct";
 import Footer from "../components/Footer";
 import SideBarAddProduct from "../components/admin/SideBar";
-import { createProduct, getCategories } from "../api"; // Impor getCategories
 import Button from "../components/Button";
-import { getUser } from "../utils/auth";
+import { useProductForm } from "../hooks/useProductForm";
 
 const AddProduct = () => {
-  const navigate = useNavigate();
-  const [notification, setNotification] = useState({ message: "", type: "" });
-  const [categories, setCategories] = useState([]); // State untuk kategori
-  const [fileName, setFileName] = useState(""); // State untuk nama file
-  const [imagePreview, setImagePreview] = useState(null); // State untuk pratinjau gambar
-  const fileInputRef = useRef(null);
-
-  // Fetch kategori saat komponen dimuat
-  useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await getCategories(); // Mengambil seluruh respons
-        setCategories(response.data); // Mengatur state dengan array dari response.data
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-        setNotification({ message: "Could not fetch categories.", type: "error" });
-      }
-    };
-    fetchCategories();
-  }, []);
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFileName(file.name);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result);
-      };
-      reader.readAsDataURL(file);
-    } else {
-      setFileName("");
-      setImagePreview(null);
-    }
-  };
-
-  const submitData = async (e) => {
-    e.preventDefault();
-    const form=e.target;
-    const formData = new FormData(e.target);
-    const user = getUser();
-
-    if (!user) {
-      setNotification({ message: "Please login to create a product.", type: "error" });
-      return;
-    }
-
-    formData.append("userId", user.id);
-
-    if (!formData.get("categoryId")) {
-      setNotification({ message: "Please select a category.", type: "error" });
-      return;
-    }
-
-    try {
-      await createProduct(formData);
-      setNotification({ message: "Product created successfully!", type: "success" });
-      form.reset()
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-      setTimeout(() => {
-        navigate("/add-product");
-      }, 2000);
-    } catch (error) {
-      setNotification({ message: `Error creating product: ${error.message}`, type: "error" });
-    }
-  };
+  const {
+    notification,
+    isLoading,
+    categories,
+    imagePreview,
+    fileName,
+    fileInputRef,
+    handleFileChange,
+    handleSubmit,
+  } = useProductForm();
 
   return (
-    <form encType="multipart/form-data" onSubmit={submitData}>
+    <form encType="multipart/form-data" onSubmit={handleSubmit}>
       <div
         className="relative flex min-h-screen w-full flex-col bg-gray-50"
         style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}

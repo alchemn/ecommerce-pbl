@@ -1,59 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { getAllProducts, deleteProduct } from '../api';
+import { deleteProduct, getAllProducts } from '../api';
 import Spinner from '../components/Spinner';
 import Pagination from '../components/Pagination';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { useAdminData } from '../hooks/useAdminData';
 
 const AdminProductList = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  
-  const [currentPage, setCurrentPage] = useState(1);
-  const [productsPerPage] = useState(5);
-
-  const fetchProducts = async () => {
-    setLoading(true);
-    try {
-      const response = await getAllProducts();
-      if (response.data && Array.isArray(response.data.product)) {
-        setProducts(response.data.product.reverse());
-      } else {
-        console.error("Unexpected data structure for products:", response.data);
-        setProducts([]);
-      }
-    } catch (err) {
-      setError('Failed to fetch products. Please try again later.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const {
+    currentData: currentProducts,
+    loading,
+    error,
+    refetch,
+    pagination,
+  } = useAdminData(getAllProducts, { itemsPerPage: 5 });
 
   const handleDelete = async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await deleteProduct(id);
-        fetchProducts();
+        refetch(); // Re-fetch data after deletion
       } catch (err) {
         console.error('Failed to delete product:', err);
+        alert('Failed to delete product. See console for details.');
       }
-    }
-  };
-
-  const indexOfLastProduct = currentPage * productsPerPage;
-  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
-  const totalPages = Math.ceil(products.length / productsPerPage);
-
-  const paginate = (pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
     }
   };
 
@@ -125,8 +95,8 @@ const AdminProductList = () => {
             </tbody>
           </table>
         </div>
-        {totalPages > 1 && (
-          <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
+        {pagination.totalPages > 1 && (
+          <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} paginate={pagination.paginate} />
         )}
       </div>
     </div>

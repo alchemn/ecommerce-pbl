@@ -8,7 +8,7 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-10 py-4 shadow-sm bg-white sticky top-0 z-20">
+    <header className="rounded-2xl border border-white/20 bg-white/50 backdrop-blur-xl shadow-lg flex items-center justify-between whitespace-nowrap px-10 py-4 mx-4 mt-4 z-20">
       <div className="flex items-center gap-10">
         <Link to="/" className="flex items-center gap-3 text-indigo-600">
           <svg
@@ -54,7 +54,7 @@ const Navbar = () => {
         <UserActions />
       </div>
       {isMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-white shadow-md md:hidden">
+        <div className="absolute top-full left-0 right-0 rounded-b-2xl bg-white/50 backdrop-blur-xl shadow-lg md:hidden">
           <NavLinks />
           <div className="p-4">
             <SearchBar />

@@ -65,8 +65,13 @@ export const getLatestProducts = () => {
   return apiClient.get("/product/last");
 };
 
-export const getAllProducts = () => {
-  return apiClient.get("/product");
+export const getAllProducts = (page = 1, search = '') => {
+  return apiClient.get("/product", {
+    params: {
+      page,
+      search,
+    }
+  });
 };
 
 export const loginUser = (payload) => {
@@ -91,6 +96,6 @@ export const getAllProfiles = () => {
   return apiClient.get("/user/profile");
 };
 
-export const getProductByCategory = (id) => {
-  return apiClient.get(`/category/${id}`)
+export const getProductByCategory = (name) => {
+  return apiClient.get(`/category/name/${name}`)
 }

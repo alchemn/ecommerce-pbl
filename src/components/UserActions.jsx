@@ -30,19 +30,19 @@ const UserActions = () => {
               }}
             ></div>
           </Link>
-          <button onClick={handleLogout} className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+          <button onClick={handleLogout} className="px-4 py-2 text-sm font-semibold text-gray-800 bg-transparent rounded-lg hover:bg-red-500 hover:text-white">
             Logout
           </button>
         </>
       ) : (
         <>
           <Link to={'/login'}>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            <button className="px-4 py-2 text-sm font-semibold text-gray-800 bg-transparent border border-gray-400 rounded-lg hover:bg-gray-100 hover:text-gray-900">
               Login
             </button>
           </Link>
           <Link to={'/register'}>
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            <button className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Register
             </button>
           </Link>

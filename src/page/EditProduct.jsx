@@ -1,105 +1,27 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import HeaderAddProduct from "../components/HeaderAddProduct";
 import Footer from "../components/Footer";
 import SideBarAddProduct from "../components/admin/SideBar";
-import { getProductById, updateProduct, deleteProduct } from "../api";
 import Button from "../components/Button";
-import { getUser } from "../utils/auth";
+import { useProductForm } from "../hooks/useProductForm";
 
 const EditProduct = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
-  const [product, setProduct] = useState({
-    name: "",
-    description: "",
-    price: "", 
-    image: "",
-  });
-  const [notification, setNotification] = useState({ message: "", type: "" });
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const response = await getProductById(id);
-        setProduct(response.data);
-      } catch (error) {
-        setNotification({
-          message: `Error fetching product: ${error.message}`,
-          type: "error",
-        });
-      }
-    };
-    fetchProduct();
-  }, [id]);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setProduct({ ...product, [name]: value });
-  };
-
-  const submitData = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    const user = getUser();
-
-    if (!user) {
-      setNotification({ message: "Please login to update a product.", type: "error" });
-      return;
-    }
-
-    formData.append("name", product.name);
-    formData.append("description", product.description);
-    formData.append("price", product.price);
-    formData.append("userId", user.id);
-    const imageInput = document.querySelector("#file-upload");
-    if (imageInput.files[0]) {
-      formData.append("image", imageInput.files[0]);
-    }
-
-    try {
-      await updateProduct(id, formData);
-      setNotification({
-        message: "Product updated successfully!",
-        type: "success",
-      });
-      setTimeout(() => {
-        navigate("/product-list"); // Redirect to product list after success
-      }, 2000);
-    } catch (error) {
-      setNotification({
-        message: `Error updating product: ${error.message}`,
-        type: "error",
-      });
-    }
-    console.log(formData);
-    
-  };
-
-  const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      try {
-        await deleteProduct(id);
-        setNotification({
-          message: "Product deleted successfully!",
-          type: "success",
-        });
-        setTimeout(() => {
-          navigate("/product-list"); // Redirect to product list after success
-        }, 2000);
-      } catch (error) {
-        setNotification({
-          message: `Error deleting product: ${error.message}`,
-          type: "error",
-        });
-      }
-    }
-  };
-  
+  const {
+    initialData,
+    notification,
+    isLoading,
+    imagePreview,
+    fileInputRef,
+    isEditMode,
+    handleFileChange,
+    handleSubmit,
+    handleDelete,
+  } = useProductForm(id);
 
   return (
-    <form encType="multipart/form-data" onSubmit={submitData}>
+    <form encType="multipart/form-data" onSubmit={handleSubmit}>
       <div
         className="relative flex min-h-screen w-full flex-col bg-gray-50"
         style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}
@@ -111,11 +33,10 @@ const EditProduct = () => {
             <div className="mx-auto max-w-4xl">
               {notification.message && (
                 <div
-                  className={`${
-                    notification.type === "success"
+                  className={`${notification.type === "success"
                       ? "bg-green-100 border-green-400 text-green-700"
                       : "bg-red-100 border-red-400 text-red-700"
-                  } border px-4 py-3 rounded relative mb-4`}
+                    } border px-4 py-3 rounded relative mb-4`}
                   role="alert"
                 >
                   <span className="block sm:inline">
@@ -128,11 +49,14 @@ const EditProduct = () => {
                   Edit Product
                 </h1>
                 <div className="flex gap-4">
-                  <Button type="submit">Update Product</Button>
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading ? "Updating..." : "Update Product"}
+                  </Button>
                   <Button
                     type="button"
                     onClick={handleDelete}
                     className="bg-red-600 hover:bg-red-700"
+                    disabled={isLoading}
                   >
                     Delete Product
                   </Button>
@@ -158,8 +82,7 @@ const EditProduct = () => {
                             type="text"
                             id="product-name"
                             name="name"
-                            value={product.name}
-                            onChange={handleInputChange}
+                            defaultValue={initialData.name}
                             className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
                         </div>
@@ -176,8 +99,7 @@ const EditProduct = () => {
                             id="description"
                             name="description"
                             rows="4"
-                            value={product.description}
-                            onChange={handleInputChange}
+                            defaultValue={initialData.description}
                             className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           ></textarea>
                         </div>
@@ -190,7 +112,11 @@ const EditProduct = () => {
                     <div className="mt-6">
                       <div className="flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                         <div className="text-center">
-                          <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" />
+                          {imagePreview ? (
+                            <img src={imagePreview} alt="Image Preview" className="mx-auto h-32 w-32 object-cover rounded-md" />
+                          ) : (
+                            <PhotoIcon className="mx-auto h-12 w-12 text-gray-300" />
+                          )}
                           <div className="mt-4 flex text-sm leading-6 text-gray-600">
                             <label
                               htmlFor="file-upload"
@@ -202,6 +128,8 @@ const EditProduct = () => {
                                 name="image"
                                 type="file"
                                 className="sr-only"
+                                onChange={handleFileChange}
+                                ref={fileInputRef}
                               />
                             </label>
                             <p className="pl-1">or drag and drop</p>
@@ -218,7 +146,7 @@ const EditProduct = () => {
                 <div>
                   <div className="rounded-xl bg-white p-6 shadow-sm">
                     <h2 className="text-xl font-bold text-gray-900">
-                      Pricing & Inventory
+                      Pricing
                     </h2>
                     <div className="mt-6 space-y-6">
                       <div>
@@ -238,17 +166,11 @@ const EditProduct = () => {
                             type="text"
                             id="price"
                             name="price"
-                            value={product.price}
-                            onChange={handleInputChange}
+                            defaultValue={initialData.price}
                             className="block w-full rounded-lg border-0 py-2.5 pl-7 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                           />
                         </div>
                       </div>
-                      <input
-                        type="hidden"
-                        name="userId"
-                        value="1" 
-                      />
                     </div>
                   </div>
                 </div>

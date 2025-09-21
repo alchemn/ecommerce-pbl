@@ -17,7 +17,8 @@ import ListUser from "./components/admin/ListUser";
 import AdminLayout from "./page/AdminLayout";
 import AdminOrderList from "./page/AdminOrderList";
 import AdminProductList from "./page/AdminProductList";
-import ProductByCategory from "./page/ProductCategory"
+import ProductCategory from "./page/ProductCategory"
+import AdminProtectedRoute from "./components/AdminProtectedRoute";
 
 
 export default function Home() {
@@ -53,9 +54,16 @@ export default function Home() {
           <Route path="/edit-product/:id" element={<EditProduct />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/category/:id" element={<ProductByCategory />} />
+          <Route path="/category/:name" element={<ProductCategory />} />
 
-          <Route path="/admin" element={<AdminLayout />}>
+          <Route
+            path="/admin"
+            element={
+              <AdminProtectedRoute>
+                <AdminLayout />
+              </AdminProtectedRoute>
+            }
+          >
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="customers" element={<ListUser />} />
             <Route path="products" element={<AdminProductList />} />

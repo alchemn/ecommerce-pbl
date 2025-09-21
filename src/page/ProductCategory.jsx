@@ -8,7 +8,7 @@ import { getProductByCategory } from '../api';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const ProductCategory = () => {
-  const { id } = useParams(); // Get category ID from URL
+  const { name } = useParams(); // Get category ID from URL
   const [products, setProducts] = useState([]);
   const [categoryName, setCategoryName] = useState('');
   const [loading, setLoading] = useState(true);
@@ -18,7 +18,7 @@ const ProductCategory = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const res = await getProductByCategory(id);
+        const res = await getProductByCategory(name);
         // API returns category object with a products array
         setProducts(res.data.category.products || []);
         setCategoryName(res.data.category.name || 'Category');
@@ -32,7 +32,7 @@ const ProductCategory = () => {
     };
 
     fetchProducts();
-  }, [id]); // Refetch if category ID changes
+  }, [name]); // Refetch if category ID changes
 
   const handleDelete = (productId) => {
     // This is a placeholder function

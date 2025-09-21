@@ -1,61 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import { getAllOrders } from '../api';
 import Spinner from '../components/Spinner';
 import Pagination from '../components/Pagination';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { useAdminData } from '../hooks/useAdminData';
 
 const AdminOrderList = () => {
-  const [orders, setOrders] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { 
+    currentData: currentOrders, 
+    loading, 
+    error, 
+    pagination 
+  } = useAdminData(getAllOrders, { itemsPerPage: 10 });
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [ordersPerPage] = useState(10);
-
-  const fetchOrders = async () => {
-    setLoading(true);
-    try {
-      const response = await getAllOrders();
-      if (response.data && Array.isArray(response.data.data)) {
-        setOrders(response.data.data.reverse());
-      } else if (Array.isArray(response.data)) {
-        setOrders(response.data.reverse());
-      } else {
-        console.error("Unexpected data structure for orders:", response.data);
-        setOrders([]);
-      }
-    } catch (err) {
-      setError('Failed to fetch orders. Please try again later.');
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchOrders();
-  }, []);
-
-  const handleDelete = async (id) => {
+  const handleDelete = (id) => {
     if (window.confirm('Are you sure you want to delete this order? NOTE: API function not implemented yet.')) {
       console.log('Delete order:', id);
+      // In a real app, you would call an API to delete and then refetch()
     }
   };
   
   const handleEdit = (id) => {
     console.log('Edit order:', id);
-  }
-
-  const indexOfLastOrder = currentPage * ordersPerPage;
-  const indexOfFirstOrder = indexOfLastOrder - ordersPerPage;
-  const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
-  const totalPages = Math.ceil(orders.length / ordersPerPage);
-
-  const paginate = (pageNumber) => {
-    if (pageNumber > 0 && pageNumber <= totalPages) {
-      setCurrentPage(pageNumber);
-    }
   };
 
   const getStatusChip = (status) => {
@@ -137,8 +103,8 @@ const AdminOrderList = () => {
             </tbody>
           </table>
         </div>
-        {totalPages > 1 && (
-          <Pagination currentPage={currentPage} totalPages={totalPages} paginate={paginate} />
+        {pagination.totalPages > 1 && (
+          <Pagination currentPage={pagination.currentPage} totalPages={pagination.totalPages} paginate={pagination.paginate} />
         )}
       </div>
     </div>
