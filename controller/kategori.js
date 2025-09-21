@@ -30,5 +30,38 @@ export const createCategory = async (req, res) => {
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
+}
 
+
+export const getCategoryById = async (req,res) => {
+  try {
+    const {id} = req.params
+    const category = await prisma.category.findUnique({
+      where: {id: Number(id)}
+    })
+    res.status(200).json({message: "Category Found", category})
+  } catch (error) {
+    res.status(500).json({message: error.message})
+  }
+}
+
+
+export const getProductByCategory = async (req,res) => {
+  try {
+    const category = await prisma.category.findUnique({
+    where : {id: Number(req.params.id)},
+    include: {
+      products:true
+    }
+    })
+    res.status(200).json({
+      message: "Product By Category",
+      category
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    })
+  
+  }
 }

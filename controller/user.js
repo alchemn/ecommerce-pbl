@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+
+
 export const getuser = async (req, res) => {
     try {
         const user = await prisma.user.findMany()
@@ -123,3 +125,22 @@ export const updateProfile = async (req,res) => {
     res.status(500).json({message:err.message})
   }
 }
+
+export const getProfile = async (req,res) => {
+  try {
+    const users = await prisma.user.findMany({
+      include: {
+        profile: true
+      }
+    });
+
+    res.status(200).json({
+      message: "All User Profiles",
+      data: users
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    });
+  }
+}  

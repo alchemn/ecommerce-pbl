@@ -84,3 +84,17 @@ export const getOrderById = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const totalOrder = async (req,res) => {
+  try {
+    const data = await prisma.order.count()
+    res.status(200).json({
+      message: "Total Order",
+      data
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    })
+  }
+}

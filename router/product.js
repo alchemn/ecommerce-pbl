@@ -1,5 +1,5 @@
 import express from 'express'
-import { createProduct, deleteProduct, getProduct, getProductById, updateProduct, getLatestProduct,getCalculateProduct } from '../controller/product.js'
+import { createProduct, deleteProduct, getProduct, getProductById, updateProduct, getLatestProduct,getCalculateProduct, totalProduct} from '../controller/product.js'
 import { upload } from '../utils/uploadFileHandler.js'
 import {authMiddleware,roleMiddleware} from '../middleware/authMiddleware.js'
 
@@ -8,6 +8,7 @@ const productRouter = express.Router()
 
 
 productRouter.get('/',getProduct)
+productRouter.get('/count',totalProduct)
 productRouter.get('/calculate', getCalculateProduct)
 productRouter.get('/last', getLatestProduct)
 productRouter.get('/:id', getProductById)

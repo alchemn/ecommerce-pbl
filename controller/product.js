@@ -161,3 +161,18 @@ export const getCalculateProduct = async (req,res) => {
   
   }
 }
+
+
+export const totalProduct = async (req,res) => {
+  try {
+    const data = await prisma.product.count()
+    res.status(200).json({
+      message: "Total Product",
+      data
+    })
+  } catch (error) {
+    res.status(404).json({
+      message: error.message
+    })
+  }
+}
