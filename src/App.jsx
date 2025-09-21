@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useState, useEffect } from "react";
-import Dashboard from "./page/Dashboard";
+import Main from "./page/Home";
 import ProductList from "./page/ProductList";
 import ProductDetail from "./page/ProductDetail";
 import Profile from "./page/Profile";
@@ -12,6 +12,7 @@ import EditProduct from "./page/EditProduct";
 import Register from "./page/Register";
 import Login from "./page/Login";
 import Loading from "./components/Loading";
+import Dashboard from "./page/Dashboard";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -35,10 +36,10 @@ export default function Home() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Main />} />
           <Route path="/product-list" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetail />} />
-          {/* <Route path="/cart" element={<ShoppingCart />} /> */}
+          <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/order/:id" element={<CheckoutPage />} />
           <Route path="/about" element={<About />} />

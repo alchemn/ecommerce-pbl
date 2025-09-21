@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { PlusIcon, PhotoIcon } from "@heroicons/react/24/solid";
 import HeaderAddProduct from "../components/HeaderAddProduct";
 import Footer from "../components/Footer";
-import SideBarAddProduct from "../components/SideBarAddProduct";
+import SideBarAddProduct from "../components/admin/SideBar";
 import { createProduct, getCategories } from "../api"; // Impor getCategories
 import Button from "../components/Button";
 

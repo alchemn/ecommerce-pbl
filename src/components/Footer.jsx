@@ -1,6 +1,5 @@
 const Footer = () => {
   const year = new Date().getFullYear();
-
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="max-w-screen-xl mx-auto px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-12">
@@ -20,8 +19,8 @@ const Footer = () => {
             <h3 className="text-white font-semibold mb-3">Payment Partners</h3>
             <div className="grid grid-cols-3 gap-3">
               {[
-                "https://via.placeholder.com/80x40?text=Visa",
-                "https://via.placeholder.com/80x40?text=MasterCard",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/1920px-Visa_2021.svg.png",
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/800px-Mastercard-logo.svg.png",
                 "https://via.placeholder.com/80x40?text=BCA",
                 "https://via.placeholder.com/80x40?text=Mandiri",
                 "https://via.placeholder.com/80x40?text=BNI",
@@ -31,7 +30,7 @@ const Footer = () => {
                   key={i}
                   src={logo}
                   alt="Partner"
-                  className="h-8 object-contain bg-white rounded p-1"
+                  className="h-8 object-cover bg-white rounded p-1"
                 />
               ))}
             </div>

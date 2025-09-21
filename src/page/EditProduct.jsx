@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PhotoIcon } from "@heroicons/react/24/solid";
 import HeaderAddProduct from "../components/HeaderAddProduct";
 import Footer from "../components/Footer";
-import SideBarAddProduct from "../components/SideBarAddProduct";
+import SideBarAddProduct from "../components/admin/SideBar";
 import { getProductById, updateProduct, deleteProduct } from "../api";
 import Button from "../components/Button";
 
@@ -13,7 +13,7 @@ const EditProduct = () => {
   const [product, setProduct] = useState({
     name: "",
     description: "",
-    price: "",
+    price: "", 
     image: "",
   });
   const [notification, setNotification] = useState({ message: "", type: "" });

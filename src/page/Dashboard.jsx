@@ -1,48 +1,60 @@
-import React from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Hero from '../components/Hero';
-import Promo from '../components/Promo';
-import CategoryList from '../components/CategoryList';
-import ProductSection from '../components/ProductSection';
-import { CreditCardIcon, TruckIcon } from '@heroicons/react/24/outline';
+import React from "react";
+import SideBarAddProduct from "../components/admin/SideBar";
+import { CubeIcon, UsersIcon, BanknotesIcon } from "@heroicons/react/24/outline";
+
 
 const Dashboard = () => {
   return (
-    <div className="relative flex h-auto min-h-screen w-full flex-col bg-white group/design-root overflow-x-hidden font-inter">
-      <div className="layout-container flex h-full grow flex-col">
-        <Navbar />
-        <div className="flex flex-1 justify-center py-10 px-4 sm:px-6 lg:px-8 bg-gray-50">
-          <div className="layout-content-container flex flex-col max-w-screen-xl flex-1 gap-12">
-            <Hero />
-            <CategoryList />
-            <ProductSection />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
-              <Promo
-                bgColor="bg-indigo-100"
-                icon={<TruckIcon width={50} />}
-                title="Free Shipping on Orders Over $50"
-                description="Shop now and get your items delivered to your doorstep for free."
-                buttonText="Shop Now"
-                buttonBgColor="bg-blue-500"
-                buttonHoverColor="hover:bg-blue-600"
-                buttonRingColor="focus:ring-indigo-300"
-              />
-              <Promo
-                bgColor="bg-purple-100"
-                icon={<CreditCardIcon width={50} />}
-                title="Get $10 Off Your First Purchase"
-                description="Sign up and claim your exclusive voucher today!"
-                buttonText="Claim Voucher"
-                buttonBgColor="bg-purple-600"
-                buttonHoverColor="hover:bg-purple-700"
-                buttonRingColor="focus:ring-purple-300"
-              />
+    <div className="relative flex min-h-screen w-full bg-gray-100">
+      <SideBarAddProduct />
+      <main className="flex-1 p-8">
+        <h1 className="mb-8 text-2xl font-bold tracking-tight text-gray-900">
+          Dashboard
+        </h1>
+
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Total Product Card */}
+          <div className="rounded-xl bg-white p-6 shadow-sm">
+            <div className="flex items-start justify-between">
+              <div className="flex flex-col space-y-2">
+                <h3 className="text-sm font-medium text-gray-500">
+                  Total Products
+                </h3>
+                <p className="text-3xl font-bold text-gray-900">1,234</p>
+              </div>
+              <div className="rounded-full bg-indigo-100 p-3">
+                <CubeIcon className="h-6 w-6 text-indigo-600" />
+              </div>
+            </div>
+          </div>
+
+          {/* Total User Card */}
+          <div className="rounded-xl bg-white p-6 shadow-sm">
+            <div className="flex items-start justify-between">
+              <div className="flex flex-col space-y-2">
+                <h3 className="text-sm font-medium text-gray-500">Total Users</h3>
+                <p className="text-3xl font-bold text-gray-900">567</p>
+              </div>
+              <div className="rounded-full bg-green-100 p-3">
+                <UsersIcon className="h-6 w-6 text-green-600" />
+              </div>
+            </div>
+          </div>
+            {/* Total Buy Product */}
+                      <div className="rounded-xl bg-white p-6 shadow-sm">
+            <div className="flex items-start justify-between">
+              <div className="flex flex-col space-y-2">
+                <h3 className="text-sm font-medium text-gray-500">Product Yang Terjual</h3>
+                <p className="text-3xl font-bold text-gray-900">567</p>
+              </div>
+              <div className="rounded-full bg-green-100 p-3">
+                <BanknotesIcon className="h-6 w-6 text-green-600" />
+              </div>
             </div>
           </div>
         </div>
-        <Footer />
-      </div>
+      </main>
     </div>
   );
 };
