@@ -14,6 +14,7 @@ import Login from "./page/Login";
 import Loading from "./components/Loading";
 import Dashboard from "./page/Dashboard";
 import ListUser from "./components/admin/ListUser";
+import AdminLayout from "./page/AdminLayout";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,7 @@ export default function Home() {
       setTimeout(() => {
         setLoading(false);
       }, 500); // Corresponds to the duration of the fade-out animation
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -40,7 +41,6 @@ export default function Home() {
           <Route path="/" element={<Main />} />
           <Route path="/product-list" element={<ProductList />} />
           <Route path="/product/:id" element={<ProductDetail />} />
-          <Route path="/admin/dashboard" element={<Dashboard />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/order/:id" element={<CheckoutPage />} />
           <Route path="/about" element={<About />} />
@@ -49,7 +49,14 @@ export default function Home() {
           <Route path="/edit-product/:id" element={<EditProduct />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/admin/user" element={<ListUser />} />
+                    <Route path="/category/:id" element={<ProductByCategory />} />
+
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="customers" element={<ListUser />} />
+            <Route path="products" element={<ProductList />} />
+            <Route path="orders" element={<OrderList />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </>
