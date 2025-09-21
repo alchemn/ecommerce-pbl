@@ -7,7 +7,7 @@ const Card = ({name, price,image, id}) => {
      <Link to={`/product/${id}`}>
       <div className="group bg-white rounded-2xl shadow-md overflow-hidden transition-transform duration-300 hover:-translate-y-2">
         <img
-          className="w-full h-56 bg-center bg-cover"
+          className="w-full h-56 bg-center bg-cover object-contain"
           src={image}
         ></img>
         <div className="p-4 space-y-2">

@@ -10,10 +10,10 @@ const CardBig = ({ name, price, owner, image, id }) => {
   return (
     <>
       <Link to={`/product/${id}`}>
-        <div className="group flex flex-col bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
+        <div className="flex flex-col bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow duration-300">
           <div className="relative">
             <img
-              className="w-full h-56 bg-center bg-cover"
+              className=" w-full h-56 bg-center object-contain"
               src={image}
             ></img>
             <div onClick={(e)=> {
@@ -49,7 +49,7 @@ const CardBig = ({ name, price, owner, image, id }) => {
             <div className="flex justify-between items-center mt-4">
               <p className="text-lg font-bold text-gray-900">{price}</p>
               <button className="bg-indigo-50 text-indigo-600 hover:bg-indigo-100 rounded-lg px-3 py-1.5 text-sm font-semibold transition">
-                Add to cart
+                Detail Barang
               </button>
             </div>
           </div>

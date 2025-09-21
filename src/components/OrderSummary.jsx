@@ -38,7 +38,7 @@ const OrderSummary = ({ order }) => {
             ></img>
             <div className="flex-1">
               <p className="font-medium text-gray-800">{item.name}</p>
-              <p className="text-sm text-gray-500">Description: {item.description}</p>
+             
             </div>
             <p className="font-medium text-gray-800">{formatPrice(item.price)}</p>
           </div>

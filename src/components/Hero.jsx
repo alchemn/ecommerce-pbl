@@ -1,4 +1,4 @@
-import React from 'react';
+import { Link } from 'react-router-dom';
 import Button from './Button';
 
 const Hero = () => (
@@ -19,7 +19,9 @@ const Hero = () => (
             Explore a world of curated products, from stylish furniture to the latest gadgets.
           </h2>
         </div>
-        <Button name={'Shop Now'} />
+        <Link to="/product-list">
+        <Button>All Products</Button>
+        </Link>
       </div>
     </div>
   </div>

@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import NavLinks from "./NavLinks";
 import UserActions from "./UserActions";
 
 const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-10 py-4 shadow-sm bg-white sticky top-0 z-20">
-      <div className="flex items-center gap-10">
-        <Link to="/" className="flex items-center gap-3 text-indigo-600">
+    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-4 md:px-10 py-4 shadow-sm bg-white sticky top-0 z-20">
+      <div className="flex items-center gap-4 md:gap-10">
+        <Link to="/" className="flex items-center gap-2 md:gap-3 text-indigo-600">
           <svg
-            className="h-8 w-8"
+            className="h-6 w-6 md:h-8 md:w-8"
             fill="none"
             viewBox="0 0 48 48"
             xmlns="http://www.w3.org/2000/svg"
@@ -20,16 +22,46 @@ const Navbar = () => {
               fill="currentColor"
             ></path>
           </svg>
-          <h2 className="text-gray-900 text-2xl font-bold leading-tight tracking-tighter">
+          <h2 className="text-gray-900 text-xl md:text-2xl font-bold leading-tight tracking-tighter">
             ShopSmart
           </h2>
         </Link>
-        <NavLinks />
+        <div className="hidden md:flex">
+          <NavLinks />
+        </div>
+        <button
+          className="md:hidden text-gray-900 focus:outline-none"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+        >
+          <svg
+            className="h-6 w-6"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M4 6h16M4 12h16M4 18h16"
+            ></path>
+          </svg>
+        </button>
       </div>
-      <div className="flex flex-1 justify-end items-center gap-4">
+      <div className="hidden md:flex flex-1 justify-end items-center gap-2 md:gap-4">
         <SearchBar />
         <UserActions />
       </div>
+      {isMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-white shadow-md md:hidden">
+          <NavLinks />
+          <div className="p-4">
+            <SearchBar />
+            <UserActions />
+          </div>
+        </div>
+      )}
     </header>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import Spinner from "./Spinner";
 
 const ProductInfo = ({ product, isBuying, handleBuyNow, error }) => (
-  <div className="flex flex-col justify-between">
+  <div className="flex flex-col justify-between h-[540px]">
     <div>
       <h1 className="text-3xl font-bold text-slate-800 mb-2">{product.name}</h1>
 
@@ -12,12 +12,14 @@ const ProductInfo = ({ product, isBuying, handleBuyNow, error }) => (
         </span>
       </div>
 
-      <p className="text-sm text-green-600 font-medium mb-6">
+
+
+      <p className="text-sm text-gray-600 font-medium mb-6 whitespace-pre-line max-h-[300px] overflow-y-auto pr-2">
         Deskripsi: <br /> {product.description}
       </p>
     </div>
 
-    <div className="">
+    <div className="pt-4">
       <button
         onClick={handleBuyNow}
         disabled={isBuying}
