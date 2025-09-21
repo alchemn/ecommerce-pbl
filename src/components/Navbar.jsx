@@ -6,7 +6,7 @@ import UserActions from "./UserActions";
 
 const Navbar = () => {
   return (
-    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-10 py-4 shadow-sm bg-white sticky top-0 z-20">
+    <header className="flex items-center justify-between whitespace-nowrap border-b border-solid border-gray-200 px-10 py-4 shadow-sm bg-brand-light sticky top-0 z-20">
       <div className="flex items-center gap-10">
         <Link to="/" className="flex items-center gap-3 text-brand-primary">
           <svg

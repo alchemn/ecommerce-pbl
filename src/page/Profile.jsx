@@ -103,7 +103,7 @@ function Profile() {
                         <div className="mt-2">
                           <input
                             autoComplete="name"
-                            className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-offset-0 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-brand-primary sm:text-sm sm:leading-6"
+                            className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-300 sm:text-sm sm:leading-6"
                             placeholder="Full Name"
                             id="full-name"
                             name="full-name"
@@ -137,7 +137,7 @@ function Profile() {
                         <div className="mt-2">
                           <input
                             autoComplete="email"
-                            className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-300 sm:text-sm sm:leading-6"
                             placeholder="Email"
                             id="email"
                             name="email"
@@ -155,7 +155,7 @@ function Profile() {
                         <div className="mt-2">
                           <input
                             autoComplete="email"
-                            className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-300 sm:text-sm sm:leading-6"
                             placeholder="Address"
                             id="address"
                             name="address"
@@ -173,7 +173,7 @@ function Profile() {
                         <div className="mt-2">
                           <input
                             autoComplete="phone"
-                            className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-lg border-0 p-2.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-1 focus:ring-inset focus:ring-gray-300 sm:text-sm sm:leading-6"
                             placeholder="08xxxxxxxxxx"
                             id="phone-number"
                             name="phone-number"
@@ -208,7 +208,7 @@ function Profile() {
                       Cancel
                     </button>
                     <button
-                      className="rounded-md bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                      className="rounded-md bg-brand-secondary px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-brand-primary focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-brand-primary"
                       type="submit"
                     >
                       Save Changes
