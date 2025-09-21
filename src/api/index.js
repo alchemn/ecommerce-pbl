@@ -76,3 +76,7 @@ export const deleteProduct = (id) => {
 export const getMiniProduct = () => {
   return apiClient.get('/product/calculate')
 }
+
+export const getProductByCategory = (id) => {
+  return apiClient.get(`/category/${id}`)
+}

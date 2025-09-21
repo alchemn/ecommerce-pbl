@@ -13,8 +13,12 @@ import Register from "./page/Register";
 import Login from "./page/Login";
 import Loading from "./components/Loading";
 import Dashboard from "./page/Dashboard";
+<<<<<<< HEAD
 import ListUser from "./components/admin/ListUser";
 import AdminLayout from "./page/AdminLayout";
+=======
+import ProductByCategory from "./page/ProductCategory";
+>>>>>>> 8f1dbb8b7c98ceb979d0d3ebb08ac997c7a98675
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -49,7 +53,7 @@ export default function Home() {
           <Route path="/edit-product/:id" element={<EditProduct />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-                    <Route path="/category/:id" element={<ProductByCategory />} />
+          <Route path="/category/:id" element={<ProductByCategory />} />
 
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
