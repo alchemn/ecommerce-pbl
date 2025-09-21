@@ -13,6 +13,7 @@ import Register from "./page/Register";
 import Login from "./page/Login";
 import Loading from "./components/Loading";
 import Dashboard from "./page/Dashboard";
+import ProductByCategory from "./page/ProductCategory";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -48,6 +49,7 @@ export default function Home() {
           <Route path="/edit-product/:id" element={<EditProduct />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/category/:id" element={<ProductByCategory />} />
         </Routes>
       </BrowserRouter>
     </>
