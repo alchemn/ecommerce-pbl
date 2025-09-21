@@ -13,12 +13,9 @@ import Register from "./page/Register";
 import Login from "./page/Login";
 import Loading from "./components/Loading";
 import Dashboard from "./page/Dashboard";
-<<<<<<< HEAD
 import ListUser from "./components/admin/ListUser";
 import AdminLayout from "./page/AdminLayout";
-=======
-import ProductByCategory from "./page/ProductCategory";
->>>>>>> 8f1dbb8b7c98ceb979d0d3ebb08ac997c7a98675
+import ProductByCategory from "./page/ProductCategory"
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
