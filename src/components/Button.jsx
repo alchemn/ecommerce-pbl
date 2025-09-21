@@ -5,7 +5,7 @@ const Button = ({ children, onClick, type = "button", disabled = false, classNam
   
   const typeClasses = disabled 
     ? "bg-gray-400 cursor-not-allowed" 
-    : "bg-indigo-500 hover:bg-indigo-700 focus:ring-indigo-300";
+    : "bg-brand-secondary hover:bg-brand-primary focus:ring-brand-dark";
 
   return (
     <button

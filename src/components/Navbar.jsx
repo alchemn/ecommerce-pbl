@@ -20,7 +20,7 @@ const Navbar = () => {
               fill="currentColor"
             ></path>
           </svg>
-          <h2 className="text-brand-dark text-2xl font-bold leading-tight tracking-tighter">
+          <h2 className="text-brand-secondary text-2xl font-bold leading-tight tracking-tighter">
             PumaApp
           </h2>
         </Link>

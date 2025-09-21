@@ -2,14 +2,14 @@ const Footer = () => {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-gray-300">
+    <footer className="bg-brand-dark text-gray-300">
       <div className="max-w-screen-xl mx-auto px-6 lg:px-8 py-14 grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-12">
         {/* Left Section */}
         <div className="col-span-2 space-y-6">
           {/* Logo */}
           <div className="flex flex-row gap-4">
             <svg
-              className="h-8 w-8"
+              className="h-8 w-8 text-brand-primary"
               fill="none"
               viewBox="0 0 48 48"
               xmlns="http://www.w3.org/2000/svg"
@@ -19,13 +19,13 @@ const Footer = () => {
                 fill="currentColor"
               ></path>
             </svg>
-            <h2 className="text-white text-3xl font-extrabold tracking-wide">
+            <h2 className="text-brand-secondary text-3xl font-extrabold tracking-wide">
               PumaApp
             </h2>
           </div>
 
           {/* Partner Button */}
-          <button className="bg-indigo-600 text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-500 transition">
+          <button className="bg-brand-accent text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-500 transition">
             Partner with PumaApp
           </button>
 

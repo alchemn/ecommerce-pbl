@@ -15,8 +15,8 @@ const NavLinks = () => (
         to={link.path}
         className={({ isActive }) =>
           isActive
-            ? "text-indigo-600 font-semibold" // kalau aktif
-            : "text-gray-600 hover:text-indigo-400 transition-colors" // default
+            ? "text-brand-primary font-semibold" // kalau aktif
+            : "text-gray-600 hover:text-brand-secondary transition-colors" // default
         }
       >
         {link.label}
