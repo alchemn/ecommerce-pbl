@@ -25,7 +25,7 @@ const Footer = () => {
           </div>
 
           {/* Partner Button */}
-          <button className="bg-brand-accent text-white px-5 py-2 rounded-lg shadow hover:bg-indigo-500 transition">
+          <button className="bg-brand-accent text-white px-5 py-2 rounded-lg shadow hover:bg-brand-dark transition cursor-pointer">
             Partner with PumaApp
           </button>
 
