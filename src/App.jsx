@@ -15,7 +15,7 @@ import Loading from "./components/Loading";
 import Dashboard from "./page/Dashboard";
 import ListUser from "./components/admin/ListUser";
 import AdminLayout from "./page/AdminLayout";
-import ProductByCategory from "./page/ProductCategory"
+import ProductByCategory from "./page/ProductCategory";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);

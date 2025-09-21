@@ -30,7 +30,7 @@ const ProductList = () => {
     let newFilteredProducts = [...products];
     if (selectedCategory) {
       newFilteredProducts = newFilteredProducts.filter((p) =>
-        p.category && p.category.name === selectedCategory
+        p.categoryId === selectedCategory
       );
     }
     setFilteredProducts(newFilteredProducts);
@@ -47,8 +47,8 @@ const ProductList = () => {
     }
   };
 
-  const handleCategoryChange = (categoryName) => {
-    setSelectedCategory(categoryName);
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategory(categoryId);
   };
 
   return (
