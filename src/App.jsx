@@ -15,6 +15,8 @@ import Loading from "./components/Loading";
 import Dashboard from "./page/Dashboard";
 import ListUser from "./components/admin/ListUser";
 import AdminLayout from "./page/AdminLayout";
+import AdminOrderList from "./page/AdminOrderList";
+import AdminProductList from "./page/AdminProductList";
 import ProductByCategory from "./page/ProductCategory"
 
 export default function Home() {
@@ -55,8 +57,8 @@ export default function Home() {
           <Route path="/admin" element={<AdminLayout />}>
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="customers" element={<ListUser />} />
-            <Route path="products" element={<ProductList />} />
-            <Route path="orders" element={<OrderList />} />
+            <Route path="products" element={<AdminProductList />} />
+            <Route path="orders" element={<AdminOrderList />} />
           </Route>
         </Routes>
       </BrowserRouter>
