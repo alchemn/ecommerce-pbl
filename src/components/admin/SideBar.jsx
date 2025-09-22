@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink,useNavigate } from "react-router-dom";
 import {
   Squares2X2Icon,
   ShoppingCartIcon,
@@ -10,12 +10,18 @@ import {
 } from "@heroicons/react/24/solid";
 
 const SideBar = () => {
+  const navigate = useNavigate();
   const navLinkClasses = ({ isActive }) =>
     `flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium ${
       isActive
         ? "bg-gray-100 text-gray-700"
         : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
     }`;
+
+    const handleLogout = () => {
+      localStorage.removeItem('token');
+      navigate("/login");
+    }
 
   return (
     <aside className="w-64 flex-shrink-0 border-r border-gray-200 bg-white py-6">
@@ -53,13 +59,13 @@ const SideBar = () => {
             <Cog6ToothIcon className="h-5 w-5" />
             General
           </a>
-          <a
-            href="#"
+          <button
+            onClick={handleLogout}
             className="flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-gray-500 hover:bg-gray-100 hover:text-gray-700"
           >
             <ArrowRightStartOnRectangleIcon className="h-5 w-5" />
             Logout
-          </a>
+          </button>
         </nav>
       </div>
     </aside>

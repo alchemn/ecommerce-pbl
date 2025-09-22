@@ -9,7 +9,7 @@ import { CreditCardIcon, TruckIcon } from '@heroicons/react/24/outline';
 
 const Dashboard = () => {
   return (
-    <div className="relative flex h-auto min-h-screen w-full flex-col bg-white group/design-root overflow-x-hidden font-inter">
+    <div className="relative flex h-auto min-h-screen w-full flex-col bg-white  font-inter">
       <div className="layout-container flex h-full grow flex-col">
         <Navbar />
         <div className="flex flex-1 justify-center py-10 px-4 sm:px-6 lg:px-8 bg-gray-50">

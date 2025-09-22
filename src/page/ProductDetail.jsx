@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getProductById, createOrder, getMiniProduct } from "../api";
+import { getProductById, createOrder, getMiniProduct, getCategories } from "../api";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ProductImage from "../components/ProductImage";
@@ -12,6 +12,7 @@ import { getUser } from "../utils/auth";
 function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+  const [category, setCategory] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isBuying, setIsBuying] = useState(false);
   const [error, setError] = useState(null);
@@ -33,6 +34,23 @@ function ProductDetail() {
     };
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await getCategories();
+        setCategory(res.data);
+      } catch (error) {
+        console.error("error fetching product data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+    console.log();
+    
+  }, []);
+  
 
   useEffect(() => {
     const fetchMini = async () => {
@@ -107,7 +125,7 @@ function ProductDetail() {
           <div className="max-w-7xl mx-auto">
             <div className="flex gap-2 text-sm text-gray-500 mb-6">
               <a className="hover:text-indigo-600" href="#">
-                {product.category?.name || "Category"}
+                {category[product.categoryId - 4].name }
               </a>
               <span>/</span>
               <span className="font-medium text-slate-800">{product.name}</span>

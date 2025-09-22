@@ -27,7 +27,11 @@ const Login = () => {
     const userData = { email, password };
     const res = await loginUser(userData);
     localStorage.setItem("token", res.data.token);
-    navigate("/profile");
+    if(res.data.role === "SELLER"){
+      navigate("/admin/add-product")
+    }else{
+      navigate("/profile");
+    }
   } catch (error) {
     alert(`Login gagal: ${error.message || "Terjadi kesalahan pada server."}`);
     console.error("Error saat login:", error);

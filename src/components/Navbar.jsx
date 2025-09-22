@@ -8,22 +8,19 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="rounded-2xl border border-white/20 bg-white/50 backdrop-blur-xl shadow-lg flex items-center justify-between whitespace-nowrap px-10 py-4 mx-4 mt-4 z-20">
+    <header className="sticky top-0 left-0 right-0 rounded-2xl border border-white/20 bg-white/50 backdrop-blur-3xl shadow-lg flex items-center justify-between whitespace-nowrap px-10 py-4 mx-4 mt-4 z-50">
       <div className="flex items-center gap-10">
         <Link to="/" className="flex items-center gap-3 text-indigo-600">
-          <svg
-            className="h-6 w-6 md:h-8 md:w-8"
-            fill="none"
-            viewBox="0 0 48 48"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M42.4379 44C42.4379 44 36.0744 33.9038 41.1692 24C46.8624 12.9336 42.2078 4 42.2078 4L7.01134 4C7.01134 4 11.6577 12.932 5.96912 23.9969C0.876273 33.9029 7.27094 44 7.27094 44L42.4379 44Z"
-              fill="currentColor"
-            ></path>
-          </svg>
+         <div className="h-10 w-20 overflow-visible flex items-center">
+          {/* keep container height fixed but scale the image visually */}
+          <img
+            src="/logo.png"
+            alt=""
+            className="w-[80px] h-auto object-contain transform scale-125 origin-left"
+          />
+         </div>
           <h2 className="text-gray-900 text-2xl font-bold leading-tight tracking-tighter">
-            ShopSmart
+            PumaShop
           </h2>
         </Link>
         <div className="hidden md:flex">
@@ -67,3 +64,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

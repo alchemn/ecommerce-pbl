@@ -73,7 +73,7 @@ function OrderList() {
                     <img className="h-20 w-20 flex-shrink-0 rounded-lg bg-cover bg-center" src={`${import.meta.env.VITE_API_URL}${order.product.image}`}></img>
                     <div className="flex-1">
                       <div className="flex items-baseline justify-between">
-                        <p className="text-lg font-semibold text-gray-800">Order #{order.id}</p>
+                        <p className="text-lg font-semibold text-gray-800">{order.product.name}</p>
                         <p className="text-sm text-gray-500">{formatDate(order.createdAt)}</p>
                       </div>
                       <div className="mt-2 flex items-center justify-between">

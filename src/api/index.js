@@ -96,6 +96,10 @@ export const getAllProfiles = () => {
   return apiClient.get("/user/profile");
 };
 
+export const getProfileById = (params) => {
+  return apiClient.get("/user/profile", { params });
+};
+
 export const getProductByCategory = (name) => {
   return apiClient.get(`/category/name/${name}`)
 }

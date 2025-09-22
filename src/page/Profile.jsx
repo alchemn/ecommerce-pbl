@@ -7,10 +7,13 @@ import {
 import { getAllProfiles, createProfile, updateProfile } from "../api";
 import { useNavigate } from "react-router-dom";
 import { getUser } from "../utils/auth";
+import { UserCircleIcon } from "@heroicons/react/20/solid";
 
 
 function Profile() {
+
   const [profileId, setProfileId] = useState(null);
+  const [cekProfile, setCekProfile] = useState(null);
   const [name, setName] = useState("");
   const [addres, setAddres] = useState("");
   const [phone, setPhone] = useState("");
@@ -30,17 +33,26 @@ function Profile() {
         }
         
         setEmail(user.email);
+       
+        
 
 
         const response = await getAllProfiles();
         const profiles = response.data.data;
-        const userProfile = profiles.find(p => p.userId === user.id);
+        const userProfile = profiles.find(p => p.id === user.id);
+
+        
+        console.log("user", user);
+        console.log("userprofile", userProfile);
+
+        
 
         if (userProfile && userProfile.profile) {
           setProfileId(userProfile.profile.id);
           setName(userProfile.profile.name);
           setAddres(userProfile.profile.addres);
           setPhone(userProfile.profile.phone);
+          setCekProfile(userProfile.profile)
         }
       } catch (error) {
         setError("Gagal mengambil data profil");
@@ -52,6 +64,8 @@ function Profile() {
 
     fetchProfile();
   }, [navigate]);
+  
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -66,11 +80,19 @@ function Profile() {
       }
 
       const profileData = { name, addres, phone, userId: user.id };
+      console.log(profileData);
+      
+    
 
-      if (profileId) {
-        await updateProfile(profileId, profileData);
-      } else {
-        await createProfile(profileData);
+      if (!cekProfile  ) {
+         await createProfile(profileData);
+         // console.log(profileId, profileData);
+         
+        } else {
+          
+          await updateProfile(profileId, profileData);
+        // console.log(profileData);
+        
       }
       navigate("/");
     } catch (error) {
@@ -83,8 +105,8 @@ function Profile() {
 
   return (
     <div
-      className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden"
-      style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}
+      className="relative flex h-auto min-h-screen w-full flex-col"
+      
     >
       <div className="layout-container flex h-full grow flex-col">
         <Navbar />
@@ -112,6 +134,7 @@ function Profile() {
                         Profile
                       </a>
                     </li>
+                   
                   </ul>
                 </nav>
                 <div className="md:col-span-3 rounded-xl bg-white p-8 shadow-sm">
@@ -124,17 +147,14 @@ function Profile() {
                         <div className="mt-2 flex items-center gap-x-3">
                           <div
                             className="h-24 w-24 rounded-full bg-cover bg-center bg-no-repeat"
-                            style={{
-                              backgroundImage:
-                                'url("https://lh3.googleusercontent.com/aida-public/AB6AXuARXlmdE3XW1xL-V-on7re1LRXir5SN1_E-1uEqrIF3DUKvpk0EM70Lb1BS6EiWB8LWzfNVN1LfDzXQQqMnWA2wF-p8BDKQMpo5hiDrokFf26uTz5w3fsjqnVltdwA74qKG9xGv2H-_Amver7DNxCmkTMqf2zxtsnyiA_u3FJ9qcSseht8yoJRel6SmetJm33pcpD7mZwOGjjdqKQVsNQR-wLNrBlqvQvcjI57kyQDwKrrTuoSm33XjMpH4eltVwhWzh77ANS_WVCNP")',
-                            }}
-                          ></div>
-                          <button
+                            
+                          >< UserCircleIcon className="text-brand-primary"/></div>
+                          {/* <button
                             className="rounded-md bg-white px-3 py-2 ml-8 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-200 cursor-pointer"
                             type="button"
                           >
                             Change
-                          </button>
+                          </button> */}
                         </div>
                       </div>
                       <div className="sm:col-span-3">

@@ -77,7 +77,7 @@ const ProductList = () => {
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
-    <div className="relative flex h-auto min-h-screen w-full flex-col bg-gray-50 overflow-x-hidden font-inter">
+    <div className="relative flex h-auto min-h-screen w-full flex-col bg-gray-50 font-inter">
       <div className="layout-container flex h-full grow flex-col">
         <Navbar />
         <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8">

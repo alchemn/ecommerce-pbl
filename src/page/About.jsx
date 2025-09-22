@@ -5,7 +5,7 @@ import Footer from '../components/Footer';
 
 const AboutPage = () => {
   return (
-    <div className="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden" style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}>
+    <div className="relative flex h-auto min-h-screen w-full flex-col" >
       <Navbar />
       <main className="flex-1">
         <div className="bg-gray-50 py-16 sm:py-24">
