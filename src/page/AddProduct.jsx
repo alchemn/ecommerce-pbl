@@ -8,7 +8,6 @@ import { useProductForm } from "../hooks/useProductForm";
 const AddProduct = () => {
   const {
     notification,
-    isLoading,
     categories,
     imagePreview,
     fileName,
@@ -23,9 +22,7 @@ const AddProduct = () => {
         className="relative flex min-h-screen w-full flex-col bg-gray-50"
         style={{ fontFamily: 'Inter, "Noto Sans", sans-serif' }}
       >
-        <HeaderAddProduct />
         <div className="flex flex-1">
-          <SideBarAddProduct />
           <main className="flex-1 px-8 py-8">
             <div className="mx-auto max-w-4xl">
               {notification.message && (
@@ -188,7 +185,6 @@ const AddProduct = () => {
             </div>
           </main>
         </div>
-        <Footer />
       </div>
     </form>
   );

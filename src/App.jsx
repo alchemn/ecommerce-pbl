@@ -50,7 +50,6 @@ export default function Home() {
           <Route path="/order/:id" element={<CheckoutPage />} />
           <Route path="/about" element={<About />} />
           <Route path="/payment" element={<OrderList />} />
-          <Route path="/add-product" element={<AddProduct />} />
           <Route path="/edit-product/:id" element={<EditProduct />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
@@ -65,6 +64,7 @@ export default function Home() {
             }
           >
             <Route path="dashboard" element={<Dashboard />} />
+            <Route path="add-product" element={<AddProduct />} />
             <Route path="customers" element={<ListUser />} />
             <Route path="products" element={<AdminProductList />} />
             <Route path="orders" element={<AdminOrderList />} />
