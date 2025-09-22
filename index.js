@@ -5,6 +5,7 @@ import userRouter from './router/user.js'
 import productRouter from './router/product.js'
 import orderRouter from './router/order.js'
 import categoryRouter from './router/category.js'
+import chatRoute from "./router/chat.js"
 
 
 
@@ -24,6 +25,7 @@ app.use('/user', userRouter)
 app.use('/product', productRouter)
 app.use('/order', orderRouter)
 app.use('/category', categoryRouter)
+app.use('/chat', chatRoute)
 
 app.listen(PORT, () => {
     console.log(`🚀 Server Deploy at ${PORT}`);
