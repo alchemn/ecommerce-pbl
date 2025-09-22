@@ -142,4 +142,18 @@ export const getProfile = async (req,res) => {
       message: error.message
     });
   }
+}
+
+export const totalUser = async (req,res) => {
+  try {
+    const data = await prisma.user.count()
+    res.status(200).json({
+      message: "Total User",
+      data
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: error.message
+    })
+  }
 }  

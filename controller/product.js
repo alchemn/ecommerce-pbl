@@ -21,6 +21,9 @@ export const getProduct = async (req, res) => {
                 where: where,
                 skip: skip,
                 take: limit,
+                orderBy: {
+                    createdAt: 'desc' // Sort by creation date, newest first
+                }
             }),
             prisma.product.count({ where: where }),
         ]);
@@ -110,24 +113,65 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const productId = Number(req.params.id);
+    console.log("Attempting to delete product with ID:", productId);
+    console.log("User making request:", req.user);
 
-    const deletedProduct = await prisma.$transaction(async (tx) => {
-      // Delete related orders first
-      await tx.order.deleteMany({
-        where: { productId: productId },
-      });
-
-      // Then delete the product
-      const product = await tx.product.delete({
-        where: { id: productId },
-      });
-
-      return product;
+    // Check if product exists
+    const existingProduct = await prisma.product.findUnique({
+      where: { id: productId },
     });
+    
+    console.log("Existing product:", existingProduct);
 
-    res.status(200).json(deletedProduct);
+    if (!existingProduct) {
+      console.log("Product not found");
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // Check if user is authorized to delete this product
+    console.log("User role:", req.user.role);
+    console.log("Product user ID:", existingProduct.userId);
+    console.log("Request user ID:", req.user.id);
+    
+    if (req.user.role !== "SELLER" && existingProduct.userId !== req.user.id) {
+      console.log("Not authorized to delete this product");
+      return res.status(403).json({ message: "Not authorized to delete this product" });
+    }
+
+    console.log("Deleting product directly (database should handle order relations)...");
+    const deletedProduct = await prisma.product.delete({
+      where: { id: productId },
+    });
+    
+    console.log("Deleted product:", deletedProduct);
+    
+    res.status(200).json({ 
+      message: "Product deleted successfully", 
+      product: deletedProduct 
+    });
   } catch (error) {
-    res.status(400).json({ message: error.message });
+    console.error("Delete product error:", error);
+    console.error("Error stack:", error.stack);
+    
+    // Check if it's a Prisma-specific error
+    if (error.code) {
+      console.error("Prisma error code:", error.code);
+      // Common Prisma error codes:
+      // P2003: Foreign key constraint failed
+      // P2025: Record to delete does not exist
+      
+      if (error.code === 'P2003') {
+        return res.status(400).json({ 
+          message: "Cannot delete product because it is associated with existing orders.",
+          error: error.toString()
+        });
+      }
+    }
+    
+    res.status(400).json({ 
+      message: error.message || "Failed to delete product",
+      error: error.toString()
+    });
   }
 };
 

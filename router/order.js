@@ -5,7 +5,7 @@ import { authMiddleware } from '../middleware/authMiddleware.js';
 
 const orderRouter = express.Router();
 
-orderRouter.get('/count',totalOrder)
+orderRouter.get('/count',totalOrder) // Move this before authMiddleware routes
 orderRouter.get('/', authMiddleware, getOrder)
 orderRouter.get('/:id',authMiddleware,getOrderById)
 orderRouter.post('/',authMiddleware, createOrder)

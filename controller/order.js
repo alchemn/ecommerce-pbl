@@ -45,18 +45,34 @@ export const createOrder = async (req, res) => {
 
 export const getOrder = async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const skip = (page - 1) * limit;
     const { userId } = req.query;
 
-    const orders = await prisma.order.findMany({
-      where: userId ? { userId: Number(userId) } : {},
-      include: {
-        user: true,
-        product: true,
-      },
-      orderBy: { createdAt: "desc" },
-    });
+    const where = userId ? { userId: Number(userId) } : {};
 
-    res.status(200).json(orders);
+    const [orders, totalOrders] = await prisma.$transaction([
+      prisma.order.findMany({
+        where,
+        skip: skip,
+        take: limit,
+        include: {
+          user: true,
+          product: true,
+        },
+        orderBy: { createdAt: "desc" },
+      }),
+      prisma.order.count({ where }),
+    ]);
+
+    res.status(200).json({
+      message: "List of Orders",
+      product: orders, // Use 'product' to match the frontend expectation
+      totalPages: Math.ceil(totalOrders / limit),
+      currentPage: page,
+      totalProducts: totalOrders,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
