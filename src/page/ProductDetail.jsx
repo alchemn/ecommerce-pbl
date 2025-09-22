@@ -22,34 +22,24 @@ function ProductDetail() {
   const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    const fetchProduct = async () => {
+    const fetchData = async () => {
       try {
-        const res = await getProductById(id);
-        setProduct(res.data);
+        setLoading(true);
+        const [productRes, categoriesRes] = await Promise.all([
+          getProductById(id),
+          getCategories(),
+        ]);
+        setProduct(productRes.data);
+        setCategory(categoriesRes.data);
       } catch (error) {
-        console.error("error fetching product data:", error);
+        console.error("error fetching data:", error);
+        setError("Failed to load product details.");
       } finally {
         setLoading(false);
       }
     };
-    fetchProduct();
+    fetchData();
   }, [id]);
-
-  useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        const res = await getCategories();
-        setCategory(res.data);
-      } catch (error) {
-        console.error("error fetching product data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchProduct();
-    console.log();
-    
-  }, []);
   
 
   useEffect(() => {
@@ -125,7 +115,7 @@ function ProductDetail() {
           <div className="max-w-7xl mx-auto">
             <div className="flex gap-2 text-sm text-gray-500 mb-6">
               <a className="hover:text-indigo-600" href="#">
-                {category[product.categoryId - 4].name }
+                                                {category?.find(cat => cat.id === product.categoryId)?.name || 'Category'}
               </a>
               <span>/</span>
               <span className="font-medium text-slate-800">{product.name}</span>

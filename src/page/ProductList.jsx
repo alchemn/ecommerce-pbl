@@ -8,6 +8,8 @@ import Pagination from "../components/Pagination";
 import { getAllProducts, deleteProduct } from "../api";
 import SortDropdown from "../components/SortDropdown";
 
+import ProductCardSkeleton from "../components/ProductCardSkeleton";
+
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -18,8 +20,10 @@ const ProductList = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [searchParams] = useSearchParams();
   const searchQuery = searchParams.get('search') || '';
+  const [loading, setLoading] = useState(true);
 
   const fetchProducts = async (page, search) => {
+    setLoading(true);
     try {
       const res = await getAllProducts(page, search);
       const { product, totalPages, currentPage, totalProducts } = res.data;
@@ -30,6 +34,8 @@ const ProductList = () => {
       setTotalProducts(totalProducts || 0);
     } catch (error) {
       console.error("Error fetching products:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,7 +102,15 @@ const ProductList = () => {
                 </div>
                 <SortDropdown sortBy={sortBy} setSortBy={setSortBy} />
               </div>
-              <ProductGrid products={sortedProducts} handleDelete={handleDelete} />
+                            {loading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                  {Array.from({ length: 12 }).map((_, index) => (
+                    <ProductCardSkeleton key={index} />
+                  ))}
+                </div>
+              ) : (
+                <ProductGrid products={sortedProducts} handleDelete={handleDelete} />
+              )}
               <Pagination 
                 currentPage={currentPage}
                 totalPages={totalPages}

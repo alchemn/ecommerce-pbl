@@ -7,3 +7,7 @@
   --color-brand-accent: #606C38;
   --color-brand-light: #FEFAE0;
 }
+
+html {
+  scroll-behavior: smooth;
+}
