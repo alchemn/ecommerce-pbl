@@ -5,7 +5,7 @@ import prisma from "../utils/prisma.js";
 export const getProduct = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
+        const limit = parseInt(req.query.limit) || 12;
         const skip = (page - 1) * limit;
         const search = req.query.search || '';
 

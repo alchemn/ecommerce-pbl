@@ -61,7 +61,9 @@ export const loginUser = async (req,res) => {
     }, JWT)
     res.status(200).json({
         message: "Login Success",
-        token
+        token,
+        role: findEmail.role
+
     })
 }catch (error) {
     res.status(500).json({
