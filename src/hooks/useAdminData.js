@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 export const useAdminData = (fetcher, options = {}) => {
   const { itemsPerPage = 10 } = options;
@@ -8,19 +8,39 @@ export const useAdminData = (fetcher, options = {}) => {
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [totalProducts, setTotalProducts] = useState(0);
+  
+  // Use a ref to store the fetcher function
+  const fetcherRef = useRef(fetcher);
+  
+  // Update the ref when fetcher changes
+  useEffect(() => {
+    fetcherRef.current = fetcher;
+  }, [fetcher]);
 
-  const fetchData = useCallback(async () => {
+  const fetchData = useCallback(async (page = 1, search = '') => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetcher();
-      // Handle various possible API response structures
-      const rawData = response.data?.data || response.data?.product || response.data || [];
-      if (Array.isArray(rawData)) {
-        setData(rawData.reverse());
-        setTotalPages(Math.ceil(rawData.length / itemsPerPage));
+      const response = await fetcherRef.current(page, search);
+      console.log("API Response:", response);
+      
+      // Handle the response structure from the backend
+      if (response.data && response.data.product) {
+        setData(response.data.product);
+        setTotalPages(response.data.totalPages || 1);
+        setCurrentPage(response.data.currentPage || page);
+        setTotalProducts(response.data.totalProducts || response.data.product.length);
       } else {
-        throw new Error("Fetched data is not an array");
+        // Fallback for other response structures
+        const rawData = response.data?.data || response.data?.product || response.data || [];
+        if (Array.isArray(rawData)) {
+          setData(rawData);
+          setTotalPages(Math.ceil(rawData.length / itemsPerPage));
+          setTotalProducts(rawData.length);
+        } else {
+          throw new Error("Fetched data is not an array");
+        }
       }
     } catch (err) {
       setError(`Failed to fetch data: ${err.message}`);
@@ -28,11 +48,11 @@ export const useAdminData = (fetcher, options = {}) => {
     } finally {
       setLoading(false);
     }
-  }, [fetcher, itemsPerPage]);
+  }, [itemsPerPage]);
 
   useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+    fetchData(currentPage);
+  }, [fetchData, currentPage]);
 
   const paginate = (pageNumber) => {
     if (pageNumber > 0 && pageNumber <= totalPages) {
@@ -40,18 +60,27 @@ export const useAdminData = (fetcher, options = {}) => {
     }
   };
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentData = data.slice(indexOfFirstItem, indexOfLastItem);
+  const refetch = useCallback(() => {
+    fetchData(currentPage);
+  }, [fetchData, currentPage]);
+
+  // For pagination, we might want to get data for a specific page
+  const getDataForPage = useCallback((page) => {
+    fetchData(page);
+  }, [fetchData]);
+
+  const currentData = Array.isArray(data) ? data : [];
 
   return {
     currentData,
     loading,
     error,
-    refetch: fetchData, // Expose a refetch function
+    refetch,
+    getDataForPage,
     pagination: {
       currentPage,
       totalPages,
+      totalProducts,
       paginate,
     },
   };

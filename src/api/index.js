@@ -1,5 +1,3 @@
-
-
 import axios from "axios";
 
 const baseURL = import.meta.env.VITE_API_URL;
@@ -8,21 +6,36 @@ const apiClient = axios.create({
   baseURL,
 });
 
-
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
+  console.log("Request config:", config);
+  console.log("Token from localStorage:", token);
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-
+// Add a response interceptor to log responses
+apiClient.interceptors.response.use(
+  (response) => {
+    console.log("Response:", response);
+    return response;
+  },
+  (error) => {
+    console.log("Response error:", error);
+    console.log("Response error details:", {
+      status: error.response?.status,
+      data: error.response?.data,
+      headers: error.response?.headers
+    });
+    return Promise.reject(error);
+  }
+);
 
 export const getUser = () => {
   return apiClient.get("/user");
 }
-
 
 export const createProfile = (payload) => {
   return apiClient.post("/user/profile", payload);
@@ -31,6 +44,7 @@ export const createProfile = (payload) => {
 export const updateProfile = (id, payload) => {
   return apiClient.put(`/user/profile/${id}`, payload);
 }
+
 export const createProduct = (formData) => {
   return apiClient.post("/product", formData, {
     headers: { "Content-Type": "multipart/form-data" }
@@ -85,12 +99,25 @@ export const updateProduct = (id, formData) => {
 };
 
 export const deleteProduct = (id) => {
+  console.log(`Making DELETE request to /product/${id}`);
   return apiClient.delete(`/product/${id}`);
 };
 
 export const getMiniProduct = () => {
   return apiClient.get('/product/calculate')
-}
+};
+
+export const getTotalProducts = () => {
+  return apiClient.get('/product/count');
+};
+
+export const getTotalUsers = () => {
+  return apiClient.get('/user/count');
+};
+
+export const getTotalOrders = () => {
+  return apiClient.get('/order/count');
+};
 
 export const getAllProfiles = () => {
   return apiClient.get("/user/profile");

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getAllProfiles } from '../../api';
+import { getAllProfiles, getUser } from '../../api';
 import Spinner from '../Spinner';
 import Pagination from '../Pagination';
 import { PencilIcon, TrashIcon } from '@heroicons/react/24/outline';

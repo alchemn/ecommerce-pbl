@@ -19,6 +19,7 @@ import AdminOrderList from "./page/AdminOrderList";
 import AdminProductList from "./page/AdminProductList";
 import ProductCategory from "./page/ProductCategory"
 import AdminProtectedRoute from "./components/AdminProtectedRoute";
+import ChatWidget from "./components/ChatWidget";
 
 
 export default function Home() {
@@ -70,6 +71,7 @@ export default function Home() {
             <Route path="orders" element={<AdminOrderList />} />
           </Route>
         </Routes>
+        <ChatWidget />
       </BrowserRouter>
     </>
   );

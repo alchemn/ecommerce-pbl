@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import CardBig from './CardBig';
 import { Link } from 'react-router-dom';
 import Button from './Button';
@@ -24,7 +23,7 @@ const ProductGrid = ({ products, handleDelete }) => {
                 owner={product.owner || 'Unknown'}
                 image={`${import.meta.env.VITE_API_URL}${product.image}`}
               />
-              {user && (user.role === 'ADMIN' || user.id === product.userId) && (
+              {user && (user.role === 'SELLER' || user.id === product.userId) && (
                 <div className="flex justify-around mt-2">
                   <Link to={`/edit-product/${product.id}`}>
                     <Button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

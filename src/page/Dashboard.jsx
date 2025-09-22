@@ -1,32 +1,29 @@
 import { useState, useEffect } from "react";
 import { CubeIcon, UsersIcon, BanknotesIcon } from "@heroicons/react/24/outline";
+import { getTotalProducts, getTotalUsers, getTotalOrders } from "../api";
 
 const Dashboard = () => {
   const [totalProducts, setTotalProducts] = useState(0);
   const [totalUser, setTotalUser] = useState(0);
   const [totalOrder, setTotalOrder] = useState(0);
-  const API = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const resProduct = await fetch(`${API}/product/count`);
-        const dataProduct = await resProduct.json();
-        setTotalProducts(dataProduct.data);
+        const productResponse = await getTotalProducts();
+        setTotalProducts(productResponse.data.data);
 
-        const resUser = await fetch(`${API}/user`);
-        const dataUser = await resUser.json();
-        setTotalUser(dataUser.data.length);
+        const userResponse = await getTotalUsers();
+        setTotalUser(userResponse.data.data);
 
-        const resOrder = await fetch(`${API}/order/count`);
-        const countOrder = await resOrder.json();
-        setTotalOrder(countOrder.data);
+        const orderResponse = await getTotalOrders();
+        setTotalOrder(orderResponse.data.data);
       } catch (error) {
         console.error("Failed to fetch dashboard data:", error);
       }
     }
     fetchData();
-  }, [API]);
+  }, []);
 
   return (
     <div>
@@ -83,6 +80,5 @@ const Dashboard = () => {
     </div>
   );
 };
-
 
 export default Dashboard;

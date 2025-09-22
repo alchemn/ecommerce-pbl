@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { deleteProduct, getAllProducts } from '../api';
 import Spinner from '../components/Spinner';
@@ -15,19 +15,30 @@ const AdminProductList = () => {
     pagination,
   } = useAdminData(getAllProducts, { itemsPerPage: 5 });
 
-  const handleDelete = async (id) => {
+  const handleDelete = useCallback(async (id) => {
     if (window.confirm('Are you sure you want to delete this product?')) {
       try {
         await deleteProduct(id);
-        refetch(); // Re-fetch data after deletion
+        // After successful deletion, refetch the data
+        refetch();
       } catch (err) {
         console.error('Failed to delete product:', err);
-        alert('Failed to delete product. See console for details.');
+        let errorMessage = 'Failed to delete product. ';
+        
+        if (err.response && err.response.data && err.response.data.message) {
+          errorMessage += err.response.data.message;
+        } else if (err.message) {
+          errorMessage += err.message;
+        } else {
+          errorMessage += 'Please try again later.';
+        }
+        
+        alert(errorMessage);
       }
     }
-  };
+  }, []);
 
-  if (loading) {
+  if (loading && currentProducts.length === 0) {
     return <Spinner />;
   }
 
@@ -63,35 +74,43 @@ const AdminProductList = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {currentProducts.map((product) => (
-                <tr key={product.id} className="hover:bg-gray-50">
-                  <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
-                    <div className="flex items-center">
-                      <div className="h-10 w-10 flex-shrink-0">
-                        <img className="h-10 w-10 rounded-md object-cover" src={`${import.meta.env.VITE_API_URL}${product.image}`} alt={product.name} />
+              {currentProducts && currentProducts.length > 0 ? (
+                currentProducts.map((product) => (
+                  <tr key={product.id} className="hover:bg-gray-50">
+                    <td className="whitespace-nowrap py-4 pl-4 pr-3 text-sm sm:pl-6">
+                      <div className="flex items-center">
+                        <div className="h-10 w-10 flex-shrink-0">
+                          <img className="h-10 w-10 rounded-md object-cover" src={`${import.meta.env.VITE_API_URL}${product.image}`} alt={product.name} />
+                        </div>
+                        <div className="ml-4">
+                          <div className="font-medium text-gray-900">{product.name}</div>
+                          <div className="text-gray-500">{product.category ? product.category.name : 'Uncategorized'}</div>
+                        </div>
                       </div>
-                      <div className="ml-4">
-                        <div className="font-medium text-gray-900">{product.name}</div>
-                        <div className="text-gray-500">{product.category ? product.category.name : 'Uncategorized'}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                    Rp {new Intl.NumberFormat('id-ID').format(product.price)}
-                  </td>
-                  <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{new Date(product.createdAt).toLocaleDateString('id-ID')}</td>
-                  <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                    <Link to={`/edit-product/${product.id}`} className="text-indigo-600 hover:text-indigo-900 mr-4">
-                      <PencilIcon className="h-5 w-5 inline-block" />
-                      <span className="sr-only">, {product.name}</span>
-                    </Link>
-                    <button onClick={() => handleDelete(product.id)} className="text-red-600 hover:text-red-900">
-                      <TrashIcon className="h-5 w-5 inline-block" />
-                      <span className="sr-only">, {product.name}</span>
-                    </button>
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      Rp {new Intl.NumberFormat('id-ID').format(product.price)}
+                    </td>
+                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{new Date(product.createdAt).toLocaleDateString('id-ID')}</td>
+                    <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                      <Link to={`/edit-product/${product.id}`} className="text-indigo-600 hover:text-indigo-900 mr-4">
+                        <PencilIcon className="h-5 w-5 inline-block" />
+                        <span className="sr-only">Edit {product.name}</span>
+                      </Link>
+                      <button onClick={() => handleDelete(product.id)} className="text-red-600 hover:text-red-900">
+                        <TrashIcon className="h-5 w-5 inline-block" />
+                        <span className="sr-only">Delete {product.name}</span>
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" className="py-4 text-center text-gray-500">
+                    No products found
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
